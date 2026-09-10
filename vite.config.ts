@@ -3,7 +3,13 @@ import { fileURLToPath, URL } from 'node:url';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
+// GitHub Pages serves the site from https://<user>.github.io/portfolio/, so the
+// built asset URLs need that prefix. Only the Pages workflow sets this; `dev`,
+// `preview` and the Playwright suite keep serving from the root.
+const base = process.env.GITHUB_PAGES === 'true' ? '/portfolio/' : '/';
+
 export default defineConfig({
+  base,
   plugins: [react()],
   resolve: {
     alias: { '@': fileURLToPath(new URL('./src', import.meta.url)) },
