@@ -91,6 +91,6 @@ export const site = {
   title: 'Lucas Majerczyk — Portfolio',
   description:
     'Portfolio de Lucas Majerczyk, ingénieur informatique spécialité IA à Paris : data engineering, trading quantitatif, machine learning temporel et agents IA.',
-  url: 'https://lucasmajerczyk.com',
+  url: 'https://sosolalt.github.io/portfolio',
   locale: 'fr_FR',
 } as const;
