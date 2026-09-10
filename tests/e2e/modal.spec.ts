@@ -7,7 +7,7 @@
  * the viewport.
  */
 import { projects } from '../../src/data/projects';
-import { cardFor, dialogFor, expect, gotoHome, test } from './helpers';
+import { rowFor, dialogFor, expect, gotoHome, test } from './helpers';
 
 /** A point in the overlay that is never covered by the panel at 1440×900. */
 const BACKDROP_POINT = { x: 1260, y: 450 };
@@ -21,7 +21,7 @@ test.beforeEach(async ({ page }, testInfo) => {
 
 for (const project of projects) {
   test(`opens the case study for ${project.title}`, async ({ page }) => {
-    await cardFor(page, project).click();
+    await rowFor(page, project).click();
 
     const dialog = dialogFor(page, project);
     await expect(dialog).toBeVisible();
@@ -31,18 +31,17 @@ for (const project of projects) {
     await expect(dialog.getByRole('heading', { name: project.title, exact: true })).toBeVisible();
     await expect(dialog.getByText(project.short, { exact: true })).toBeVisible();
 
-    // Two lists in the panel, in DOM order: the detail bullets, then the stack
-    // chips (the latter is the only one with an accessible name).
+    // Two lists in the panel, in DOM order: the details, then the stack (the
+    // latter is the only one with an accessible name).
     const details = dialog.getByRole('list').first().getByRole('listitem');
     await expect(details).toHaveCount(project.details.length);
-    // `toContainText`, not `toHaveText`: each bullet is prefixed by an
-    // aria-hidden `●` that `textContent` still sees.
-    await expect(details).toContainText([...project.details]);
+    // `toHaveText`: the bullet is drawn by CSS, so each item is its text alone.
+    await expect(details).toHaveText([...project.details]);
 
     await expect(dialog.getByText('Stack', { exact: true })).toBeVisible();
-    const chips = dialog.getByRole('list', { name: 'Stack' }).getByRole('listitem');
-    await expect(chips).toHaveCount(project.stack.length);
-    await expect(chips).toHaveText([...project.stack]);
+    const stack = dialog.getByRole('list', { name: 'Stack' }).getByRole('listitem');
+    await expect(stack).toHaveCount(project.stack.length);
+    await expect(stack).toHaveText([...project.stack]);
   });
 }
 
@@ -53,7 +52,7 @@ test.describe('external link', () => {
       expect(link).not.toBeNull();
       if (link === null) return;
 
-      await cardFor(page, project).click();
+      await rowFor(page, project).click();
       const anchor = dialogFor(page, project).getByRole('link');
 
       await expect(anchor).toHaveCount(1);
@@ -68,7 +67,7 @@ test.describe('external link', () => {
     test(`${project.title} shows no link`, async ({ page }) => {
       expect(project.link).toBeNull();
 
-      await cardFor(page, project).click();
+      await rowFor(page, project).click();
       await expect(dialogFor(page, project).getByRole('link')).toHaveCount(0);
     });
   }
@@ -76,8 +75,7 @@ test.describe('external link', () => {
 
 test.describe('dismissal', () => {
   test('closes on the ✕ button', async ({ page }) => {
-    const card = cardFor(page, projects[0]);
-    await card.click();
+    await rowFor(page, projects[0]).click();
     const dialog = page.getByRole('dialog');
 
     await dialog.getByRole('button', { name: 'Fermer' }).click();
@@ -85,7 +83,7 @@ test.describe('dismissal', () => {
   });
 
   test('closes on Escape', async ({ page }) => {
-    await cardFor(page, projects[0]).click();
+    await rowFor(page, projects[0]).click();
     const dialog = page.getByRole('dialog');
 
     await page.keyboard.press('Escape');
@@ -93,7 +91,7 @@ test.describe('dismissal', () => {
   });
 
   test('closes on a backdrop click', async ({ page }) => {
-    await cardFor(page, projects[0]).click();
+    await rowFor(page, projects[0]).click();
     const dialog = page.getByRole('dialog');
 
     await page.mouse.click(BACKDROP_POINT.x, BACKDROP_POINT.y);
@@ -101,7 +99,7 @@ test.describe('dismissal', () => {
   });
 
   test('stays open on a click inside the panel', async ({ page }) => {
-    await cardFor(page, projects[0]).click();
+    await rowFor(page, projects[0]).click();
     const dialog = page.getByRole('dialog');
 
     await dialog.getByText(projects[0].short, { exact: true }).click();
@@ -109,7 +107,7 @@ test.describe('dismissal', () => {
   });
 
   test('stays open when a drag started inside the panel ends on the backdrop', async ({ page }) => {
-    await cardFor(page, projects[0]).click();
+    await rowFor(page, projects[0]).click();
     const dialog = page.getByRole('dialog');
 
     // Selecting text in the panel and releasing over the overlay still fires a
@@ -126,10 +124,10 @@ test.describe('dismissal', () => {
 
 test.describe('scroll lock', () => {
   test('freezes the body while open and restores its previous value', async ({ page }) => {
-    const card = cardFor(page, projects[0]);
+    const row = rowFor(page, projects[0]);
     expect(await page.evaluate(() => document.body.style.overflow)).toBe('');
 
-    await card.click();
+    await row.click();
     const dialog = page.getByRole('dialog');
     await expect(dialog).toBeVisible();
     expect(await page.evaluate(() => document.body.style.overflow)).toBe('hidden');
@@ -141,7 +139,7 @@ test.describe('scroll lock', () => {
   });
 
   test('the page behind does not scroll', async ({ page }) => {
-    await cardFor(page, projects[1]).click();
+    await rowFor(page, projects[1]).click();
     await expect(page.getByRole('dialog')).toBeVisible();
 
     const before = await page.evaluate(() => window.scrollY);
@@ -165,9 +163,9 @@ test.describe('scroll lock', () => {
 });
 
 test.describe('focus', () => {
-  test('moves into the dialog on open and back to the card on close', async ({ page }) => {
-    const card = cardFor(page, projects[2]);
-    await card.click();
+  test('moves into the dialog on open and back to the row on close', async ({ page }) => {
+    const row = rowFor(page, projects[2]);
+    await row.click();
 
     const dialog = page.getByRole('dialog');
     const close = dialog.getByRole('button', { name: 'Fermer' });
@@ -180,11 +178,11 @@ test.describe('focus', () => {
 
     await page.keyboard.press('Escape');
     await expect(dialog).toHaveCount(0);
-    await expect(card).toBeFocused();
+    await expect(row).toBeFocused();
   });
 
   test('Tab never escapes the panel', async ({ page }) => {
-    await cardFor(page, projects[0]).click();
+    await rowFor(page, projects[0]).click();
     await expect(page.getByRole('dialog')).toBeVisible();
 
     for (let i = 0; i < 15; i += 1) {

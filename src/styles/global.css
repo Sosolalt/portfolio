@@ -11,7 +11,28 @@
 html {
   scroll-behavior: smooth;
   /* Keep anchored sections clear of the fixed nav. */
-  scroll-padding-top: 72px;
+  scroll-padding-top: 96px;
+  /* The browser surfaces the handoff never drew, themed from the palette. */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(148, 163, 184, 0.28) var(--color-bg);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.28);
+  border: 3px solid var(--color-bg);
+  border-radius: var(--radius-pill);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(148, 163, 184, 0.45);
 }
 
 html,
@@ -26,8 +47,12 @@ body {
 }
 
 body {
+  font-size: 1rem;
+  line-height: 1.6;
   /* Nothing in the design scrolls sideways; this guards the 360px breakpoint. */
   overflow-x: hidden;
+  caret-color: var(--accent-mint);
+  font-variant-numeric: tabular-nums;
 }
 
 #root {
@@ -40,22 +65,42 @@ body {
 }
 
 a {
-  color: var(--color-text-secondary);
+  color: inherit;
   text-decoration: none;
 }
 
-a:hover {
-  color: var(--color-text);
+/* Outbound links keep an underline; only the in-page anchors drop it. */
+a[href^='http'] {
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.3em;
 }
 
 button {
-  font-family: inherit;
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  text-align: inherit;
 }
 
 h1,
 h2,
 h3 {
+  margin: 0;
   font-family: var(--font-display);
+  font-weight: 600;
+}
+
+p {
+  margin: 0;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 /* ------------------------------------------------------------ Accessibility */
@@ -63,8 +108,8 @@ h3 {
 /* The design ships no focus styling; a visible keyboard ring is required. */
 :focus-visible {
   outline: 2px solid var(--accent-mint);
-  outline-offset: 3px;
-  border-radius: 4px;
+  outline-offset: 4px;
+  border-radius: 2px;
 }
 
 /* Visually hidden but announced — used for landmark labels and skip links. */
@@ -101,6 +146,50 @@ h3 {
   transform: translate(-50%, 0);
 }
 
+/* --------------------------------------------------------- Section shell */
+
+/**
+ * Orbite keeps every section on the centre axis: a ruled band, a centred
+ * title, then the content. The three sections below the hero share these
+ * three rules verbatim, so they live here once rather than in each module —
+ * the same reason `.reveal` and `.srOnly` do.
+ */
+.section {
+  padding: 120px 40px;
+}
+
+.section + .section,
+footer.section {
+  border-top: 1px solid var(--border-section);
+}
+
+.sectionGrid {
+  max-width: 880px;
+  margin: 0 auto;
+}
+
+.sectionLabel {
+  margin-bottom: 48px;
+  text-align: center;
+}
+
+.sectionLabel h2 {
+  font-size: clamp(1.75rem, 3vw, 2.25rem);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--color-text);
+}
+
+@media (max-width: 880px) {
+  .section {
+    padding: 88px var(--section-padding-inline);
+  }
+
+  .sectionLabel {
+    margin-bottom: 36px;
+  }
+}
+
 /**
  * Keyframes deliberately do NOT live here.
  *
@@ -114,7 +203,7 @@ h3 {
 
 /**
  * The handoff is explicit: `prefers-reduced-motion: reduce` disables ALL
- * motion. The JS side additionally short-circuits the typewriter, the reveal
+ * motion. The JS side additionally short-circuits the rotator, the reveal
  * observer and the shooting stars; this block covers everything declarative.
  */
 @media (prefers-reduced-motion: reduce) {
@@ -141,8 +230,8 @@ h3 {
   opacity: 0;
   transform: translateY(var(--reveal-distance));
   transition:
-    opacity var(--reveal-duration) ease,
-    transform var(--reveal-duration) ease;
+    opacity var(--reveal-duration) var(--ease-out),
+    transform var(--reveal-duration) var(--ease-out);
 }
 
 .reveal.is-revealed {

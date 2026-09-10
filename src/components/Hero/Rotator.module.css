@@ -1,0 +1,113 @@
+/**
+ * A fixed-height window: the phrases are absolutely positioned inside it, so
+ * the longest one never widens the hero and swapping them shifts nothing.
+ */
+.rotator {
+  position: relative;
+  width: 100%;
+  height: 1.5em;
+  overflow: hidden;
+  margin-top: 34px;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(1.1rem, 2vw, 1.3rem);
+  color: var(--color-text-secondary);
+}
+
+.phrase {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  white-space: nowrap;
+  transform: translateY(120%);
+  opacity: 0;
+  transition:
+    transform 0.7s var(--ease-out),
+    opacity 0.45s;
+}
+
+.phrase:global(.is-in) {
+  transform: none;
+  opacity: 1;
+}
+
+.phrase:global(.is-out) {
+  transform: translateY(-120%);
+  opacity: 0;
+  transition-duration: 0.5s, 0.3s;
+}
+
+.timer {
+  position: relative;
+  display: block;
+  width: 160px;
+  max-width: 100%;
+  height: 1px;
+  margin-top: 12px;
+  background: var(--border-subtle);
+  overflow: hidden;
+}
+
+.timer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--accent-mint);
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+/**
+ * The same entrance as the hero lines above, one beat later. Duplicated here
+ * rather than shared with `Hero.module.css` because CSS Modules scopes an
+ * animation name to the file it is declared in — see `global.css`.
+ */
+@keyframes enter {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.rotator,
+.timer {
+  opacity: 0;
+  animation: enter 0.9s var(--ease-out) 0.8s forwards;
+}
+
+@keyframes fill {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.timer:global(.is-running)::after {
+  animation: fill 3.2s linear forwards;
+}
+
+@media (max-width: 420px) {
+  .rotator {
+    font-size: 1.05rem;
+  }
+}
+
+/* The bar measures a beat that no longer passes; nothing to show. */
+@media (prefers-reduced-motion: reduce) {
+  .phrase {
+    transform: none;
+  }
+
+  .rotator {
+    opacity: 1;
+  }
+
+  .timer {
+    display: none;
+  }
+}

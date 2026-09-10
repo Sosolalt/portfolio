@@ -68,9 +68,9 @@
   position: absolute;
   inset: 4%;
   border-radius: 50%;
-  box-shadow:
-    0 0 18px rgba(148, 163, 184, 0.18),
-    inset 0 0 18px rgba(148, 163, 184, 0.1);
+  /* No halo: a soft glow behind a ring on a dark ground is the most
+     recognisable "generated" flourish in the original composition. The rings,
+     their duration and the lub-dub offset are unchanged. */
   animation: pulseRing var(--heartbeat-duration) var(--heartbeat-easing) infinite;
 }
 

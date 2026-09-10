@@ -10,8 +10,9 @@ import { ui } from './data/site';
 
 /**
  * The whole site is one page. The only reactive state is which case study is
- * open — the starfield, the typewriter and the scroll reveals all run on refs
- * outside React so that a 60fps canvas never triggers a re-render.
+ * open — the starfield, the phrase rotator, the nav's scrolled state and the
+ * scroll reveals all run on refs outside React so that a 60fps canvas never
+ * triggers a re-render.
  */
 export function App() {
   const [modalIndex, setModalIndex] = useState<number | null>(null);

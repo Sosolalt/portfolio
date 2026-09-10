@@ -4,6 +4,7 @@ import { createPortal } from 'react-dom';
 import type { Project } from '@/types';
 import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
 import { projectsSection } from '@/data/site';
+import { Icon } from '@/components/Icon/Icon';
 import styles from './CaseStudyModal.module.css';
 
 /** Everything that can hold focus inside the panel, in DOM order. */
@@ -141,7 +142,7 @@ export function CaseStudyModal({ project, onClose }: CaseStudyModalProps): React
           aria-label={projectsSection.closeLabel}
           onClick={onClose}
         >
-          ✕
+          <Icon name="close" className={styles.closeIcon} />
         </button>
 
         <p className={styles.tag}>{project.tag}</p>
@@ -150,27 +151,29 @@ export function CaseStudyModal({ project, onClose }: CaseStudyModalProps): React
         </h3>
         <p className={styles.short}>{project.short}</p>
 
+        {/* The bullet is drawn by CSS rather than typed as a `●` character, so
+            nothing decorative sits in the text layer to be read or copied. */}
         <ul className={styles.details} role="list">
           {project.details.map((detail) => (
             <li key={detail} className={styles.detail}>
-              <span className={styles.bullet} aria-hidden="true">
-                ●
-              </span>
-              <span>{detail}</span>
+              {detail}
             </li>
           ))}
         </ul>
 
-        <p id={stackLabelId} className={styles.stackLabel}>
-          {projectsSection.stackLabel}
-        </p>
-        <ul className={styles.chips} role="list" aria-labelledby={stackLabelId}>
-          {project.stack.map((item) => (
-            <li key={item} className={styles.chip}>
-              {item}
-            </li>
-          ))}
-        </ul>
+        {/* A `<div>`, not a `<p>`: the list below is not phrasing content. */}
+        <div className={styles.stack}>
+          <span id={stackLabelId} className={styles.stackLabel}>
+            {projectsSection.stackLabel}
+          </span>
+          <ul className={styles.stackList} role="list" aria-labelledby={stackLabelId}>
+            {project.stack.map((item) => (
+              <li key={item} className={styles.stackItem}>
+                {item}
+              </li>
+            ))}
+          </ul>
+        </div>
 
         {project.link !== null && (
           <a
@@ -179,7 +182,8 @@ export function CaseStudyModal({ project, onClose }: CaseStudyModalProps): React
             target="_blank"
             rel="noopener noreferrer"
           >
-            {`${project.link.label} ↗`}
+            {project.link.label}
+            <Icon name="external" className={styles.linkIcon} />
           </a>
         )}
       </div>

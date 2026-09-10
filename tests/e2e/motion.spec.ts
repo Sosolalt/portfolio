@@ -7,18 +7,10 @@
  * over N ms", so there is nothing to poll for.
  */
 import { hero } from '../../src/data/site';
-import {
-  canvasFrame,
-  expect,
-  gotoHome,
-  pulseLayer,
-  test,
-  typewriterRow,
-  typewriterText,
-} from './helpers';
+import { canvasFrame, expect, gotoHome, pulseLayer, rotator, shownPhrase, test } from './helpers';
 
-/** ~7 characters at the handoff's 95ms cadence — comfortably visible change. */
-const TYPEWRITER_SAMPLE_MS = 600;
+/** Longer than the rotator's own 3.2s turn, so a phrase must have changed. */
+const ROTATOR_SAMPLE_MS = 3600;
 /** Long enough for the twinkle sine to move every star's alpha. */
 const CANVAS_SAMPLE_MS = 400;
 /** Long enough to prove the reduced-motion sky is genuinely frozen. */
@@ -30,16 +22,20 @@ test.describe('motion on', () => {
     await gotoHome(page);
   });
 
-  test('the typewriter types', async ({ page }) => {
-    const text = typewriterText(page);
-    await expect(text).not.toBeEmpty();
+  test('the rotator moves from one phrase to the next', async ({ page }) => {
+    const phrase = shownPhrase(page);
+    await expect(phrase).toHaveCount(1);
 
-    const first = await text.textContent();
-    await page.waitForTimeout(TYPEWRITER_SAMPLE_MS);
-    const second = await text.textContent();
+    const first = await phrase.textContent();
+    expect(hero.phrases).toContain(first);
 
+    await page.waitForTimeout(ROTATOR_SAMPLE_MS);
+
+    // Still exactly one phrase up, and it is a different one.
+    await expect(phrase).toHaveCount(1);
+    const second = await phrase.textContent();
     expect(second).not.toBe(first);
-    expect(hero.typewriterWords.join(' ')).toContain(String(second));
+    expect(hero.phrases).toContain(second);
   });
 
   /**
@@ -62,10 +58,10 @@ test.describe('motion on', () => {
     expect(running).toBeGreaterThanOrEqual(2);
   });
 
-  /** Same scoping trap as the pulse rings, for `@keyframes blink`. */
-  test('the typewriter caret blinks', async ({ page }) => {
-    const running = await typewriterRow(page).evaluate(
-      (row) => [...row.querySelectorAll('span')].flatMap((node) => node.getAnimations()).length,
+  /** Same scoping trap as the pulse rings, for the rotator's own keyframes. */
+  test('the rotator and its timer rule are animated', async ({ page }) => {
+    const running = await rotator(page).evaluate(
+      (node) => node.getAnimations({ subtree: true }).length,
     );
 
     expect(running).toBeGreaterThan(0);
@@ -110,12 +106,13 @@ test.describe('motion off', () => {
     expect(durations.filter((duration) => duration > 0)).toEqual([]);
   });
 
-  test('the typewriter shows the first phrase and never changes', async ({ page }) => {
-    const text = typewriterText(page);
-    await expect(text).toHaveText(hero.typewriterWords[0]);
+  test('the rotator shows the first phrase and never changes', async ({ page }) => {
+    const phrase = shownPhrase(page);
+    await expect(phrase).toHaveText(hero.phrases[0]);
 
-    await page.waitForTimeout(1000);
-    await expect(text).toHaveText(hero.typewriterWords[0]);
+    await page.waitForTimeout(ROTATOR_SAMPLE_MS);
+    await expect(phrase).toHaveCount(1);
+    await expect(phrase).toHaveText(hero.phrases[0]);
   });
 
   test('the sky is static and a click makes no wish', async ({ page }) => {

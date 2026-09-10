@@ -2,9 +2,9 @@
  * Static site content: everything outside the four projects.
  *
  * Copy is validated French from the design handoff. Strings are stored in
- * natural case — the uppercase look of eyebrows, section titles and pill
- * buttons comes from `text-transform: uppercase` in CSS, so that screen
- * readers and copy/paste get properly cased text.
+ * natural case — the uppercase look of the tags, pill buttons and mono labels
+ * comes from `text-transform: uppercase` in CSS, so that screen readers and
+ * copy/paste get properly cased text.
  *
  * Two strings below contain a literal U+00A0 non-breaking space, required by
  * French typography before `:` and `?`. Do not replace it with a plain space.
@@ -34,28 +34,40 @@ export const navLinks: readonly NavLink[] = [
 ];
 
 export const hero = {
-  eyebrow: 'Ingénieur informatique · Spécialité IA — Paris',
   /** Rendered as two nodes so "Majerczyk" can be tinted mint in the nav logo. */
   firstName: 'Lucas',
   lastName: 'Majerczyk',
   name: 'Lucas Majerczyk',
+  /**
+   * The single line the hero leads with. The longer job title below is not
+   * displayed — it belongs to the document metadata in `index.html`, which
+   * cannot import from here and therefore repeats it.
+   */
+  title: 'AI Engineer',
+  where: 'Paris',
   role: 'AI Engineer & Business Developer',
-  /** Cycled by the typewriter, in order, looping forever. */
-  typewriterWords: [
+  /** Cycled by the rotator, in order, looping forever. */
+  phrases: [
     'Streaming & data lakes.',
     'Trading quantitatif.',
     'Agents outillés.',
     'ML temporel.',
   ] as const,
-  wishHint: 'clique dans le ciel pour faire un vœu ✦',
+  /** The two next steps under the profile; the first one is the primary action. */
+  actions: [
+    { label: 'Projets', href: '#projets' },
+    { label: 'Contact', href: '#contact' },
+  ] as const,
+  /** The `✦` of the handoff is drawn as an SVG star by the component. */
+  wishHint: 'clique dans le ciel pour faire un vœu',
 } as const;
 
 export const projectsSection = {
   title: 'Projets',
-  /** Card call-to-action. The `→` is decorative and marked aria-hidden. */
+  /** Ledger row call-to-action. The arrow next to it is a decorative SVG. */
   cta: 'Étude de cas',
-  /** Accessible name for a card, e.g. « Étude de cas : FreightPulse ». */
-  cardLabel: (projectTitle: string) => `Étude de cas : ${projectTitle}`,
+  /** Accessible name for a row, e.g. « Étude de cas : FreightPulse ». */
+  rowLabel: (projectTitle: string) => `Étude de cas : ${projectTitle}`,
   stackLabel: 'Stack',
   closeLabel: 'Fermer',
 } as const;

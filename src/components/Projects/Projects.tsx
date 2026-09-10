@@ -2,7 +2,7 @@ import { useId } from 'react';
 import { projects } from '@/data/projects';
 import { projectsSection } from '@/data/site';
 import { useReveal } from '@/hooks/useReveal';
-import { ProjectCard } from './ProjectCard';
+import { ProjectRow } from './ProjectRow';
 import styles from './Projects.module.css';
 
 export interface ProjectsProps {
@@ -10,21 +10,27 @@ export interface ProjectsProps {
   readonly onOpenProject: (index: number) => void;
 }
 
-/** The 2×2 project grid (one column below 340px of usable width). */
+/** The four projects as one full-width ledger, on the page's centre axis. */
 export function Projects({ onOpenProject }: ProjectsProps) {
   const titleId = useId();
   const titleRef = useReveal<HTMLHeadingElement>();
 
   return (
-    <section id="projets" className={styles.section} aria-labelledby={titleId}>
-      <h2 id={titleId} ref={titleRef} className={styles.title}>
-        {projectsSection.title}
-      </h2>
+    <section id="projets" className="section" aria-labelledby={titleId}>
+      <div className="sectionGrid">
+        <div className="sectionLabel">
+          <h2 id={titleId} ref={titleRef}>
+            {projectsSection.title}
+          </h2>
+        </div>
 
-      <div className={styles.grid}>
-        {projects.map((project, index) => (
-          <ProjectCard key={project.id} project={project} index={index} onOpen={onOpenProject} />
-        ))}
+        <ul className={styles.ledger} role="list">
+          {projects.map((project, index) => (
+            <li key={project.id}>
+              <ProjectRow project={project} index={index} onOpen={onOpenProject} />
+            </li>
+          ))}
+        </ul>
       </div>
     </section>
   );

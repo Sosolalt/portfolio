@@ -1,7 +1,7 @@
 .hero {
   position: relative;
   height: 100svh;
-  min-height: 560px;
+  min-height: 640px;
   overflow: hidden;
 }
 
@@ -18,52 +18,95 @@
   pointer-events: none;
 }
 
-/**
- * The wide-tracked uppercase labels carry a matching `padding-left`: letter
- * spacing is added after the last glyph too, so without it the line sits
- * fractionally left of centre.
- */
-.eyebrow {
-  margin: 0 0 26px;
-  padding-left: var(--type-eyebrow-tracking);
-  font-family: var(--font-mono);
-  font-size: var(--type-eyebrow-size);
-  letter-spacing: var(--type-eyebrow-tracking);
-  text-transform: uppercase;
-  color: var(--color-text-muted);
-}
-
 .name {
-  margin: 0;
-  font-size: var(--type-h1-size);
+  font-size: clamp(2.6rem, 6vw, 4.2rem);
   font-weight: 700;
-  letter-spacing: var(--type-h1-tracking);
-  line-height: var(--type-h1-leading);
+  letter-spacing: -0.03em;
+  line-height: 1;
   color: var(--color-text);
 }
 
-.role {
-  margin: 20px 0 0;
-  padding-left: var(--type-role-tracking);
-  font-family: var(--font-mono);
-  font-size: var(--type-role-size);
-  letter-spacing: var(--type-role-tracking);
-  text-transform: uppercase;
+/* The clipping window the name rises out of. */
+.line {
+  display: block;
+  overflow: hidden;
+  /* Room for the descender, taken straight back so nothing below shifts. */
+  padding-bottom: 0.12em;
+  margin-bottom: -0.12em;
+}
+
+.lineIn {
+  display: block;
+  transform: translateY(108%);
+  animation: rise 1s var(--ease-out) 0.15s forwards;
+}
+
+/* Keyframes stay in the module that references them — see `global.css`. */
+@keyframes rise {
+  to {
+    transform: none;
+  }
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.title {
+  margin-top: 16px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(1.5rem, 3.4vw, 2.25rem);
+  letter-spacing: -0.015em;
+  line-height: 1.15;
   color: var(--accent-mint);
 }
 
-.pills {
+.where {
+  margin-top: 10px;
+  font-size: 1rem;
+  color: var(--color-text-secondary);
+}
+
+/* Each line arrives just after the one above it, once the name has landed. */
+.title,
+.where,
+.actions {
+  opacity: 0;
+  animation: fade 0.9s var(--ease-out) forwards;
+}
+
+.title {
+  animation-delay: 0.55s;
+}
+
+.where {
+  animation-delay: 0.65s;
+}
+
+.actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 14px;
   justify-content: center;
-  margin-top: 34px;
+  gap: 12px;
+  margin-top: 36px;
+  animation-delay: 0.95s;
 }
 
 .pill {
-  display: inline-block;
-  padding: 12px 26px;
-  border: 1px solid var(--border-pill);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 13px 26px;
+  border: 1px solid var(--border-pill-strong);
   border-radius: var(--radius-pill);
   background: var(--color-surface-pill);
   font-family: var(--font-mono);
@@ -74,7 +117,8 @@
   pointer-events: auto;
   transition:
     color var(--transition-hover),
-    border-color var(--transition-hover);
+    border-color var(--transition-hover),
+    background-color var(--transition-hover);
 }
 
 .pill:hover {
@@ -82,18 +126,69 @@
   border-color: var(--accent-mint);
 }
 
+/* One filled action, so the next step is never ambiguous. */
+.pillPrimary {
+  background: var(--accent-mint);
+  border-color: var(--accent-mint);
+  color: var(--color-bg);
+}
+
+.pillPrimary:hover {
+  background: var(--color-text-strong);
+  border-color: var(--color-text-strong);
+  color: var(--color-bg);
+}
+
+.pillIcon {
+  width: 12px;
+  height: 12px;
+  transition: transform var(--transition-card) var(--ease-out);
+}
+
+.pill:hover .pillIcon {
+  transform: translateX(3px);
+}
+
 .hint {
   position: absolute;
-  right: 0;
-  bottom: 26px;
-  left: 0;
-  margin: 0;
-  padding-left: var(--type-pill-tracking);
+  right: var(--section-padding-inline);
+  bottom: 30px;
+  left: var(--section-padding-inline);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
   font-family: var(--font-mono);
-  font-size: var(--type-pill-size);
-  letter-spacing: var(--type-pill-tracking);
-  text-transform: uppercase;
-  text-align: center;
+  font-size: 12px;
   color: var(--color-text-muted);
   pointer-events: none;
+}
+
+.hintIcon {
+  width: 11px;
+  height: 11px;
+  color: var(--accent-mint);
+}
+
+@media (max-width: 420px) {
+  .hero {
+    min-height: 600px;
+  }
+
+  .name {
+    font-size: clamp(2.2rem, 11vw, 2.8rem);
+  }
+}
+
+/* Every entrance is an entrance; with motion off, the page is simply there. */
+@media (prefers-reduced-motion: reduce) {
+  .lineIn {
+    transform: none;
+  }
+
+  .title,
+  .where,
+  .actions {
+    opacity: 1;
+  }
 }

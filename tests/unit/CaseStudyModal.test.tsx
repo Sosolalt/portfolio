@@ -43,13 +43,19 @@ describe('CaseStudyModal — content', () => {
     }
   });
 
-  it('labels the dialog with its title and hides the decorative bullets', () => {
+  it('labels the dialog with its title and keeps every decoration out of the text', () => {
     const { dialog } = renderModal();
 
     expect(dialog).toHaveAccessibleName(linked.title);
-    const bullets = dialog.querySelectorAll('[aria-hidden="true"]');
-    expect(bullets).toHaveLength(linked.details.length);
-    for (const bullet of bullets) expect(bullet).toHaveTextContent('●');
+
+    // The detail bullets are drawn by CSS, so each item is its text and
+    // nothing else; the only aria-hidden nodes left are the two drawn icons.
+    const details = within(dialog).getAllByRole('listitem').slice(0, linked.details.length);
+    expect(details.map((item) => item.textContent)).toEqual([...linked.details]);
+
+    for (const icon of dialog.querySelectorAll('svg')) {
+      expect(icon).toHaveAttribute('aria-hidden', 'true');
+    }
   });
 
   it('carries the project accent as a CSS custom property', () => {
@@ -59,7 +65,7 @@ describe('CaseStudyModal — content', () => {
 
   it('renders the external link only when the project has one', () => {
     const { unmount } = renderModal(linked);
-    const link = screen.getByRole('link', { name: `${linked.link!.label} ↗` });
+    const link = screen.getByRole('link', { name: linked.link!.label });
 
     expect(link).toHaveAttribute('href', linked.link!.href);
     expect(link).toHaveAttribute('target', '_blank');

@@ -7,38 +7,45 @@ import { projects } from '@/data/projects';
 function renderProjects() {
   const onOpenProject = vi.fn<(index: number) => void>();
   render(<Projects onOpenProject={onOpenProject} />);
-  return { onOpenProject, cards: screen.getAllByRole('button') };
+  return { onOpenProject, rows: screen.getAllByRole('button') };
 }
 
 describe('Projects', () => {
-  it('renders the section title and one card per project', () => {
-    const { cards } = renderProjects();
+  it('renders the section title and one row per project', () => {
+    const { rows } = renderProjects();
 
     expect(screen.getByRole('heading', { level: 2, name: 'Projets' })).toBeInTheDocument();
-    expect(cards).toHaveLength(4);
-    expect(cards).toHaveLength(projects.length);
+    expect(rows).toHaveLength(4);
+    expect(rows).toHaveLength(projects.length);
   });
 
-  it('shows the tag, title, short description, three metric chips and the case-study affordance', () => {
-    const { cards } = renderProjects();
+  it('shows the tag, title, short description, the three metrics and the case-study affordance', () => {
+    const { rows } = renderProjects();
 
     projects.forEach((project, index) => {
-      const card = cards[index]!;
+      const row = rows[index]!;
 
-      expect(within(card).getByText(project.tag)).toBeInTheDocument();
-      expect(within(card).getByText(project.title)).toBeInTheDocument();
-      expect(within(card).getByText(project.short)).toBeInTheDocument();
-      expect(within(card).getByText('Étude de cas →')).toBeInTheDocument();
+      expect(within(row).getByText(project.tag)).toBeInTheDocument();
+      expect(within(row).getByText(project.title)).toBeInTheDocument();
+      expect(within(row).getByText(project.short)).toBeInTheDocument();
+      expect(within(row).getByText('Étude de cas')).toBeInTheDocument();
 
-      // `classNameStrategy: 'non-scoped'` keeps CSS module class names verbatim.
-      expect(card.querySelectorAll('.chip')).toHaveLength(3);
+      expect(project.metrics).toHaveLength(3);
       for (const metric of project.metrics) {
-        expect(within(card).getByText(metric)).toBeInTheDocument();
+        expect(within(row).getByText(metric)).toBeInTheDocument();
+      }
+
+      // The separators between the metrics are decorative only.
+      // `classNameStrategy: 'non-scoped'` keeps CSS module class names verbatim.
+      const separators = row.querySelectorAll('.separator');
+      expect(separators).toHaveLength(project.metrics.length - 1);
+      for (const separator of separators) {
+        expect(separator).toHaveAttribute('aria-hidden', 'true');
       }
     });
   });
 
-  it('names each card after the case study it opens', () => {
+  it('names each row after the case study it opens', () => {
     renderProjects();
 
     for (const project of projects) {
@@ -48,37 +55,32 @@ describe('Projects', () => {
     }
   });
 
-  it('sets the project accent as a CSS custom property on each card', () => {
-    const { cards } = renderProjects();
+  it('sets the project accent as a CSS custom property on each row', () => {
+    const { rows } = renderProjects();
 
     projects.forEach((project, index) => {
-      expect(cards[index]!.style.getPropertyValue('--accent')).toBe(project.accent);
+      expect(rows[index]!.style.getPropertyValue('--accent')).toBe(project.accent);
     });
   });
 
-  it('calls onOpenProject with the index of the clicked card', async () => {
+  it('calls onOpenProject with the index of the clicked row', async () => {
     const user = userEvent.setup();
-    const { onOpenProject, cards } = renderProjects();
+    const { onOpenProject, rows } = renderProjects();
 
-    await user.click(cards[2]!);
+    await user.click(rows[2]!);
     expect(onOpenProject).toHaveBeenCalledWith(2);
 
-    await user.click(cards[0]!);
+    await user.click(rows[0]!);
     expect(onOpenProject).toHaveBeenNthCalledWith(2, 0);
     expect(onOpenProject).toHaveBeenCalledTimes(2);
   });
 
-  it('cascades the reveal of the cards by 100ms each', () => {
-    const { cards } = renderProjects();
+  it('cascades the reveal of the rows by 100ms each', () => {
+    const { rows } = renderProjects();
 
-    // The first card has no delay, so `useReveal` leaves the style untouched.
-    expect(cards.map((card) => card.style.transitionDelay)).toEqual([
-      '',
-      '100ms',
-      '200ms',
-      '300ms',
-    ]);
+    // The first row has no delay, so `useReveal` leaves the style untouched.
+    expect(rows.map((row) => row.style.transitionDelay)).toEqual(['', '100ms', '200ms', '300ms']);
 
-    for (const card of cards) expect(card).toHaveClass('reveal');
+    for (const row of rows) expect(row).toHaveClass('reveal');
   });
 });

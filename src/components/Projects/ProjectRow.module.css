@@ -1,0 +1,98 @@
+.row {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 30px 0 34px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+/* The project's accent, drawn across the top rule on hover and on focus. */
+.row::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  /* Over the row above's bottom rule, not next to it. */
+  top: -1px;
+  width: 100%;
+  height: 2px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.55s var(--ease-out);
+}
+
+.row:hover::before,
+.row:focus-visible::before {
+  transform: scaleX(1);
+}
+
+.tag {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: var(--type-tag-size);
+  letter-spacing: var(--type-tag-tracking);
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.title {
+  display: block;
+  margin: 10px 0 12px;
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 2.6vw, 1.75rem);
+  font-weight: 600;
+  line-height: var(--type-card-title-leading);
+  letter-spacing: -0.01em;
+  transition: color var(--transition-hover);
+}
+
+.row:hover .title {
+  color: var(--accent);
+}
+
+.short {
+  display: block;
+  max-width: 68ch;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--color-text-soft);
+}
+
+.metrics {
+  display: block;
+  margin-top: 18px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: var(--color-text-secondary);
+}
+
+.separator {
+  /* The gap the handoff draws around a separator, without a literal space in
+     the text layer: 0.25em of padding plus the space either side of it. */
+  padding: 0 0.85em;
+  color: var(--color-text-muted);
+}
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 22px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  transition: color var(--transition-hover);
+}
+
+.ctaIcon {
+  transition: transform var(--transition-card) var(--ease-out);
+}
+
+.row:hover .cta {
+  color: var(--accent);
+}
+
+.row:hover .ctaIcon {
+  transform: translateX(4px);
+}

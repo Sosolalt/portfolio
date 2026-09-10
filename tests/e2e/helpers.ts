@@ -55,8 +55,8 @@ export async function gotoHome(page: Page): Promise<void> {
   });
 }
 
-/** The project card, addressed by the accessible name `ProjectCard` gives it. */
-export function cardFor(page: Page, project: Project): Locator {
+/** The project row, addressed by the accessible name `ProjectRow` gives it. */
+export function rowFor(page: Page, project: Project): Locator {
   return page.getByRole('button', { name: `Étude de cas : ${project.title}`, exact: true });
 }
 
@@ -66,20 +66,20 @@ export function dialogFor(page: Page, project: Project): Locator {
 }
 
 /**
- * The typewriter row: the `<div>` after the hero's `<h1>` and role line.
+ * The rotator: the `<div>` after the hero's `<h1>`, title and city lines.
  *
- * Structural rather than role-based on purpose. The animated span is
- * `aria-hidden` (a node whose text changes every 45ms is noise to a screen
- * reader) and its visible twin is deliberately unlabelled, so it has no role,
- * no accessible name and no stable text to query by.
+ * Structural rather than role-based on purpose. The whole stack is
+ * `aria-hidden` (a line that swaps itself every 3.2s is noise to a screen
+ * reader) and its static twin is a visually hidden span, so neither has a
+ * role or an accessible name to query by.
  */
-export function typewriterRow(page: Page): Locator {
-  return page.locator('#top h1 + p + div');
+export function rotator(page: Page): Locator {
+  return page.locator('#top h1 + p + p + div[aria-hidden="true"]');
 }
 
-/** The animated span inside the row — first of the row's two `aria-hidden` spans. */
-export function typewriterText(page: Page): Locator {
-  return typewriterRow(page).locator('> span[aria-hidden="true"]').first();
+/** The phrase currently up — the only child carrying `is-in`. */
+export function shownPhrase(page: Page): Locator {
+  return rotator(page).locator('> span.is-in');
 }
 
 /** The decorative heartbeat layer: the hero's only `aria-hidden` child `<div>`. */

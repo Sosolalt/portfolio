@@ -7,7 +7,7 @@
  */
 import { projects } from '../../src/data/projects';
 import { about, contact, hero, site, ui } from '../../src/data/site';
-import { cardFor, expect, gotoHome, rgbOf, test } from './helpers';
+import { rowFor, expect, gotoHome, rgbOf, test } from './helpers';
 
 test.beforeEach(async ({ page }) => {
   await gotoHome(page);
@@ -18,67 +18,83 @@ test('serves a French document with the expected title', async ({ page }) => {
   await expect(page.locator('html')).toHaveAttribute('lang', 'fr');
 });
 
-test('the hero shows the eyebrow, the name, the mint role line and the wish hint', async ({
+test('the hero shows the name, the mint job title, the city and the wish hint', async ({
   page,
 }) => {
-  await expect(page.getByText(hero.eyebrow)).toBeVisible();
-
   const heading = page.getByRole('heading', { level: 1, name: hero.name });
   await expect(heading).toBeVisible();
 
-  const role = page.getByText(hero.role, { exact: true });
-  await expect(role).toBeVisible();
-  await expect(role).toHaveCSS('color', rgbOf('#8FE3CF'));
+  const title = page.getByText(hero.title, { exact: true });
+  await expect(title).toBeVisible();
+  await expect(title).toHaveCSS('color', rgbOf('#8FE3CF'));
 
+  await expect(page.getByText(hero.where, { exact: true })).toBeVisible();
   await expect(page.getByText(hero.wishHint)).toBeVisible();
+
+  // The eyebrow of the original said the same thing as the title, twice.
+  await expect(page.getByText('Ingénieur informatique · Spécialité IA')).toHaveCount(0);
 });
 
-test.describe('project cards', () => {
-  test('renders exactly four of them', async ({ page }) => {
+test('the hero offers both next steps, the first one filled', async ({ page }) => {
+  const heroSection = page.locator('#top');
+
+  for (const action of hero.actions) {
+    await expect(
+      heroSection.getByRole('link', { name: action.label, exact: true }),
+    ).toHaveAttribute('href', action.href);
+  }
+
+  const primary = heroSection.getByRole('link', { name: hero.actions[0].label, exact: true });
+  await expect(primary).toHaveCSS('background-color', rgbOf('#8FE3CF'));
+});
+
+test.describe('project ledger', () => {
+  test('renders exactly four rows', async ({ page }) => {
     await expect(page.getByRole('button', { name: /^Étude de cas : / })).toHaveCount(
       projects.length,
     );
   });
 
   for (const [index, project] of projects.entries()) {
-    test(`card ${String(index + 1)} — ${project.title}`, async ({ page }) => {
-      const card = cardFor(page, project);
-      await expect(card).toBeVisible();
+    test(`row ${String(index + 1)} — ${project.title}`, async ({ page }) => {
+      const row = rowFor(page, project);
+      await expect(row).toBeVisible();
 
-      await expect(card.getByText(project.tag, { exact: true })).toBeVisible();
-      await expect(card.getByText(project.title, { exact: true })).toBeVisible();
-      await expect(card.getByText(project.short, { exact: true })).toBeVisible();
+      await expect(row.getByText(project.tag, { exact: true })).toBeVisible();
+      await expect(row.getByText(project.title, { exact: true })).toBeVisible();
+      await expect(row.getByText(project.short, { exact: true })).toBeVisible();
 
       expect(project.metrics).toHaveLength(3);
       for (const metric of project.metrics) {
-        await expect(card.getByText(metric, { exact: true })).toBeVisible();
+        await expect(row.getByText(metric, { exact: true })).toBeVisible();
       }
     });
 
-    test(`card ${String(index + 1)} wears the ${project.accent} accent on its top edge`, async ({
-      page,
-    }) => {
-      const card = cardFor(page, project);
+    test(`row ${String(index + 1)} carries the ${project.accent} accent`, async ({ page }) => {
+      const row = rowFor(page, project);
 
-      // V7 signature: the top edge alone carries the accent, at double width.
-      await expect(card).toHaveCSS('border-top-color', rgbOf(project.accent));
-      await expect(card).toHaveCSS('border-top-width', '2px');
-      await expect(card).toHaveCSS('border-right-width', '1px');
-      await expect(card).toHaveCSS('border-bottom-width', '1px');
-      await expect(card).toHaveCSS('border-left-width', '1px');
+      // The accent flows down as a custom property and tints the tag; the
+      // hairline it draws across the top rule on hover is a pseudo-element.
+      expect(
+        await row.evaluate((el) => getComputedStyle(el).getPropertyValue('--accent').trim()),
+      ).toBe(project.accent);
+      await expect(row.getByText(project.tag, { exact: true })).toHaveCSS(
+        'color',
+        rgbOf(project.accent),
+      );
     });
   }
 });
 
-test('the about section shows its paragraph and all eight skill chips', async ({ page }) => {
+test('the about section shows its paragraph and all eight skills', async ({ page }) => {
   const section = page.locator('#a-propos');
 
   await expect(section.getByRole('heading', { name: about.title })).toBeVisible();
   await expect(section.getByText(about.paragraph)).toBeVisible();
 
-  const chips = section.getByRole('listitem');
-  await expect(chips).toHaveCount(about.skills.length);
-  await expect(chips).toHaveText([...about.skills]);
+  const skills = section.getByRole('listitem');
+  await expect(skills).toHaveCount(about.skills.length);
+  await expect(skills).toHaveText([...about.skills]);
 });
 
 test('the contact section shows the hook, the address, both socials and the copyright', async ({

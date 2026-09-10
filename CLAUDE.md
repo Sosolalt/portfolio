@@ -5,8 +5,9 @@ Guidance for Claude Code (claude.ai/code) when working in this repository.
 ## What this is
 
 A one-page dark-mode portfolio for Lucas Majerczyk, built from the _Ciel V7 Constellation_ design
-handoff. No backend, no data fetching, no routing — every string is static and lives in `src/data/`.
-All copy is in French.
+handoff and shipped in the **Orbite** direction (`variants/05-orbite.html`, chosen on 10 September
+2026 — see `variants/README.md`). No backend, no data fetching, no routing — every string is static
+and lives in `src/data/`. All copy is in French.
 
 ## Commands
 
@@ -38,18 +39,26 @@ sibling `X.module.css`.
 
 `App.tsx` holds the only reactive state in the app: `modalIndex: number | null`.
 
-Everything animated deliberately lives **outside** React state, because a 60fps canvas and a
-per-character typewriter would otherwise re-render the page continuously:
+Everything animated deliberately lives **outside** React state, because a 60fps canvas and a line
+that swaps itself every 3.2s would otherwise re-render the page continuously:
 
 - `src/lib/starfield.ts` is a framework-free engine (injected `random` and frame scheduler, so it is
   deterministically unit-testable). `useStarfield` only does lifecycle. It pauses the rAF loop when
   the tab is hidden or the hero scrolls out of view.
-- `useTypewriter` runs a timeout chain that writes to a ref'd node's `textContent`.
+- `useRotator` runs one interval that moves the global `is-in` / `is-out` classes across the hero's
+  phrase spans, and restarts the timer rule under them.
+- `useScrolledPast` toggles a class on the nav once the page leaves the top.
 - `useReveal` toggles the global `.reveal` / `.is-revealed` classes via IntersectionObserver.
 
-The case-study modal is mounted only while open, so open/close _is_ mount/unmount. It portals into
-`document.body`, traps focus, restores focus to the card that opened it, and locks body scroll
-through a module-level counter in `useBodyScrollLock`.
+The case-study sheet is mounted only while open, so open/close _is_ mount/unmount. It portals into
+`document.body`, traps focus, restores focus to the row that opened it, and locks body scroll
+through a module-level counter in `useBodyScrollLock`. Its backdrop darkens by animating its own
+`background-color`, never `opacity`: a translucent ancestor composites the panel's text against the
+page behind it and drops the sheet below AA contrast for the length of the entrance.
+
+The three sections below the hero share one shell — `.section`, `.sectionGrid`, `.sectionLabel` in
+`global.css`, alongside `.reveal` and `.srOnly` — because Orbite keeps all of them on one centre
+axis with identical rules.
 
 ## Invariants — do not break these
 
@@ -59,10 +68,12 @@ is machine-verified against it. Never paraphrase, re-punctuate or "fix" it. Two 
 them, and note that Testing Library's default normalizer will silently collapse them, so assertions
 on those strings must pass `normalizer: (t) => t`.
 
-**Design values are final.** They live once, in `src/styles/tokens.css`. Components reference tokens,
-not literals. Per-project accents flow down as a `--accent` custom property set inline. The one
-deliberate deviation from the handoff palette is `--color-text-muted`, lifted from `#64748B` to
-`#708097` for WCAG AA; the reason is documented at the token and guarded by an e2e test.
+**Design values are final.** The palette, type scale and motion timings live once, in
+`src/styles/tokens.css`; components reference tokens, not literals. Per-project accents flow down as
+a `--accent` custom property set inline. The one deliberate deviation from the handoff palette is
+`--color-text-muted`, lifted from `#64748B` to `#708097` for WCAG AA; the reason is documented at
+the token and guarded by an e2e test. Orbite's own layout values (its section padding, its row
+rhythm) are local to the module that draws them, as they always were.
 
 **`prefers-reduced-motion: reduce` disables all motion.** `global.css` kills every animation and
 transition declaratively; the starfield, typewriter and reveals each short-circuit in JS as well.
@@ -75,18 +86,24 @@ unit tests (Vitest uses `classNameStrategy: 'non-scoped'`) and to the dev server
 build shows it.
 
 **Vendor-prefix order matters.** Lightning CSS (Vite 8's minifier) collapses a prefixed/unprefixed
-pair to whichever comes last. Write `-webkit-backdrop-filter` first, `backdrop-filter` second.
+pair to whichever comes last, so the prefixed one goes first (`-webkit-backdrop-filter`, then
+`backdrop-filter`).
 
 **Text is stored in natural case** and uppercased in CSS, so assistive tech and copy/paste get
 properly cased strings. Never uppercase in JS.
 
-No images, no icon libraries, no CSS frameworks. `✦ ● → ↗ ✕` are plain text characters. Layout must
-hold to 360px with no horizontal overflow and no layout shift.
+No images, no icon libraries, no CSS frameworks. The handoff's `✦ → ↗ ✕` are drawn as four
+`<path>`s in `src/components/Icon/Icon.tsx`, always `aria-hidden` and always next to their own
+label; the case-study bullets and the mono separators are CSS, so nothing decorative sits in the
+text layer. Layout must hold to 360px with no horizontal overflow and no layout shift.
 
 ## The handoff
 
-`design_handoff_portfolio_ciel/` is the design source of truth, kept for reference and excluded from
-lint, formatting and the build.
+`design_handoff_portfolio_ciel/` is the original design source of truth, kept for reference and
+excluded from lint, formatting and the build. `variants/` holds the five explored front-page
+directions as standalone HTML; `05-orbite.html` is the one the site now implements, and it is the
+reference to check a layout question against. Both directories are excluded from lint, formatting
+and the build.
 
 - `README.md` — the spec: tokens, per-component layout, and the verbatim project content.
 - `Ciel V7 - Constellation.dc.html` — the design reference prototype. Markup lives in an `<x-dc>` tag

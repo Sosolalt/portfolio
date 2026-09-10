@@ -1,17 +1,22 @@
 .nav {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
+  inset: 0 0 auto;
   z-index: var(--z-nav);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 18px 28px;
-  background: var(--color-nav-bg);
-  -webkit-backdrop-filter: blur(12px);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--border-nav);
+  gap: 24px;
+  padding: 22px 40px;
+  border-bottom: 1px solid transparent;
+  transition:
+    background-color var(--transition-card),
+    border-color var(--transition-card);
+}
+
+/* Applied by `useScrolledPast` past 24px of scroll. */
+.isScrolled {
+  background: var(--color-bg);
+  border-color: var(--border-nav);
 }
 
 .logo {
@@ -30,37 +35,60 @@
 
 .links {
   display: flex;
-  gap: 26px;
+  gap: 32px;
 }
 
+/**
+ * Sentence case, in the body face: the mono uppercase menu of the original is
+ * the other half of the same tell as the blurred bar.
+ */
 .link {
-  font-family: var(--font-mono);
-  font-size: var(--type-pill-size);
-  text-transform: uppercase;
-  letter-spacing: var(--type-pill-tracking);
+  position: relative;
+  display: inline-block;
+  padding-bottom: 3px;
+  font-size: 15px;
   color: var(--color-text-secondary);
   white-space: nowrap;
   transition: color var(--transition-hover);
+}
+
+.link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: var(--accent-mint);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--transition-card) var(--ease-out);
 }
 
 .link:hover {
   color: var(--color-text-strong);
 }
 
+.link:hover::after {
+  transform: scaleX(1);
+}
+
 /**
  * Small screens: the handoff only specifies the desktop bar. Type scale is
  * kept untouched; only padding and gaps tighten, then the bar splits into two
  * centred rows so the three links never overflow or break mid-word at 360px.
- * The stacked bar still measures under the 72px `scroll-padding-top` that
- * keeps anchored sections clear of the nav.
  */
-@media (max-width: 700px) {
+@media (max-width: 880px) {
   .nav {
-    padding: 16px 20px;
+    padding: 16px var(--section-padding-inline);
   }
 
   .links {
-    gap: 18px;
+    gap: 20px;
+  }
+
+  .link {
+    font-size: 14px;
   }
 }
 
@@ -70,5 +98,15 @@
     justify-content: center;
     gap: 10px;
     padding: 12px 16px;
+  }
+}
+
+@media (max-width: 420px) {
+  .links {
+    gap: 16px;
+  }
+
+  .logo {
+    letter-spacing: 0.1em;
   }
 }

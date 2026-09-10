@@ -8,7 +8,7 @@
 import AxeBuilder from '@axe-core/playwright';
 import { projects } from '../../src/data/projects';
 import { ui } from '../../src/data/site';
-import { cardFor, expect, gotoHome, revealEverything, test } from './helpers';
+import { rowFor, expect, gotoHome, revealEverything, test } from './helpers';
 
 const WCAG = ['wcag2a', 'wcag2aa', 'wcag21aa'];
 
@@ -44,7 +44,7 @@ test('every text colour clears WCAG AA contrast', async ({ page }) => {
 });
 
 test('an open case study has no accessibility violations', async ({ page }) => {
-  await cardFor(page, projects[0]).click();
+  await rowFor(page, projects[0]).click();
   await expect(page.getByRole('dialog')).toBeVisible();
 
   const results = await new AxeBuilder({ page })
@@ -65,7 +65,7 @@ test('an open case study has no accessibility violations', async ({ page }) => {
  * sound, and it catches the same `--color-text-muted` bug on the STACK label.
  */
 test('the open dialog clears WCAG AA contrast', async ({ page }) => {
-  await cardFor(page, projects[0]).click();
+  await rowFor(page, projects[0]).click();
   await expect(page.getByRole('dialog')).toBeVisible();
 
   const results = await new AxeBuilder({ page })

@@ -26,7 +26,7 @@ describe('Contact', () => {
     );
   });
 
-  it('renders both social links safely, with the arrow kept out of the name', () => {
+  it('renders both social links safely, with the drawn arrow kept out of the name', () => {
     render(<Contact />);
 
     for (const social of contact.socials) {
@@ -34,7 +34,10 @@ describe('Contact', () => {
       expect(link).toHaveAttribute('href', social.href);
       expect(link).toHaveAttribute('target', '_blank');
       expect(link).toHaveAttribute('rel', 'noopener noreferrer');
-      expect(link.textContent).toBe(`${social.label} ↗`);
+      // The "opens elsewhere" mark is an aria-hidden SVG, so it contributes
+      // neither to the accessible name nor to the copied text.
+      expect(link.textContent).toBe(social.label);
+      expect(link.querySelector('svg')).toHaveAttribute('aria-hidden', 'true');
     }
   });
 

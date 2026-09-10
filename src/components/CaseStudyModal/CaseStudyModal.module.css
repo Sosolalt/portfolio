@@ -1,43 +1,78 @@
+/**
+ * The case-study sheet: a panel that rises from the bottom edge, keeping the
+ * page it belongs to visible above it.
+ */
 .overlay {
   position: fixed;
   inset: 0;
   z-index: var(--z-modal);
-  background: var(--color-overlay);
-  -webkit-backdrop-filter: blur(8px);
-  backdrop-filter: blur(8px);
   display: flex;
-  /* Docked to the bottom of the viewport, phone-sheet style. */
   align-items: flex-end;
   justify-content: center;
-  padding: 0;
+  background: var(--color-overlay);
+  animation: dim var(--transition-hover) both;
+}
+
+/**
+ * The backdrop darkens by animating its own colour rather than its opacity:
+ * an `opacity` below 1 on this element composites the panel's text against
+ * the page behind it, which dims the sheet and drops its contrast below AA
+ * for as long as the entrance lasts.
+ *
+ * Keyframes stay in the module that references them — see `global.css`.
+ */
+@keyframes dim {
+  from {
+    background-color: transparent;
+  }
+
+  to {
+    background-color: var(--color-overlay);
+  }
 }
 
 .panel {
-  box-sizing: border-box;
   position: relative;
   width: 100%;
   max-width: var(--modal-max-width);
   max-height: 88svh;
   overflow-y: auto;
   margin: 0 12px;
-  padding: 40px 36px;
+  padding: 44px 40px;
   background: var(--color-bg-modal);
   border: 1px solid var(--border-subtle);
+  border-bottom: 0;
+  /* The project's accent, as the edge the sheet enters on. */
+  border-top: 2px solid var(--accent);
   border-radius: var(--radius-modal);
+  /* Transform only, for the same reason the backdrop animates its colour. */
+  animation: rise 0.5s var(--ease-out) both;
+}
+
+@keyframes rise {
+  from {
+    transform: translateY(28px);
+  }
+
+  to {
+    transform: none;
+  }
 }
 
 .close {
   position: absolute;
   top: 18px;
   right: 18px;
-  width: 36px;
-  height: 36px;
-  background: none;
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-pill);
   color: var(--color-text-secondary);
-  cursor: pointer;
-  font-size: 15px;
+  transition:
+    color var(--transition-hover),
+    border-color var(--transition-hover);
 }
 
 .close:hover {
@@ -45,97 +80,129 @@
   border-color: var(--border-subtle-hover);
 }
 
+.closeIcon {
+  width: 14px;
+  height: 14px;
+}
+
 .tag {
-  margin: 0 0 12px;
+  /* Clear of the close button, which is absolutely positioned over this row. */
+  padding-right: 46px;
+  margin-bottom: 12px;
   font-family: var(--font-mono);
   font-size: var(--type-tag-size);
-  text-transform: uppercase;
   letter-spacing: var(--type-tag-tracking);
+  text-transform: uppercase;
   color: var(--accent);
 }
 
 .title {
-  margin: 0 0 16px;
-  font-size: 1.7rem;
-  font-weight: 600;
+  font-size: 1.75rem;
+  line-height: var(--type-card-title-leading);
+  letter-spacing: -0.01em;
+  color: var(--color-text-strong);
 }
 
 .short {
-  margin: 0 0 24px;
-  font-size: 15px;
-  line-height: 1.7;
+  margin-top: 14px;
+  font-size: 1.05rem;
+  line-height: 1.6;
   color: var(--color-text-secondary);
 }
 
 .details {
-  list-style: none;
-  margin: 0 0 28px;
-  padding: 0;
+  margin-top: 28px;
   display: flex;
   flex-direction: column;
-  gap: var(--card-gap);
+  gap: 14px;
 }
 
 .detail {
-  display: flex;
-  gap: 12px;
-  font-size: 14px;
+  position: relative;
+  padding-left: 22px;
+  font-size: 15px;
   line-height: 1.65;
   color: var(--color-text-soft);
 }
 
-.bullet {
-  color: var(--accent);
-  flex-shrink: 0;
+/* The accent dot, drawn rather than typed. */
+.detail::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.65em;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.stack {
+  margin-top: 30px;
+  padding-top: 22px;
+  border-top: 1px solid var(--border-subtle);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  line-height: 1.9;
+  color: var(--color-text-secondary);
 }
 
 .stackLabel {
-  margin: 0 0 10px;
-  font-family: var(--font-mono);
+  margin-right: 14px;
   font-size: var(--type-tag-size);
-  text-transform: uppercase;
   letter-spacing: var(--type-tag-tracking);
+  text-transform: uppercase;
   color: var(--color-text-muted);
 }
 
-.chips {
-  list-style: none;
-  margin: 0 0 28px;
-  padding: 0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--chip-gap);
+.stackList {
+  display: inline;
 }
 
-/* Same chip recipe as the project card; the two live in separate CSS modules
-   and cannot share a class without a file this slice does not own. */
-.chip {
-  font-size: var(--type-chip-size);
-  padding: 5px 12px;
-  border-radius: var(--radius-pill);
-  background: var(--color-surface-chip);
-  border: 1px solid var(--border-chip);
-  color: var(--color-text-soft);
+.stackItem {
+  display: inline;
+}
+
+.stackItem + .stackItem::before {
+  content: '·';
+  padding: 0 0.85em;
+  color: var(--color-text-muted);
 }
 
 .link {
-  display: inline-block;
-  padding: 12px 26px;
-  border-radius: var(--radius-pill);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 30px;
+  padding: 12px 24px;
   border: 1px solid var(--accent);
+  border-radius: var(--radius-pill);
   font-family: var(--font-mono);
   font-size: var(--type-pill-size);
-  text-transform: uppercase;
   letter-spacing: var(--type-pill-tracking);
+  text-transform: uppercase;
   color: var(--accent);
+  text-decoration: none;
   transition:
     color var(--transition-hover),
     background-color var(--transition-hover);
 }
 
-/* `global.css` ships an `a:hover` rule of equal specificity and is injected
-   after the CSS modules; the doubled class keeps the filled state winning. */
-.link.link:hover {
+.link:hover {
   color: var(--color-bg);
   background: var(--accent);
+}
+
+.linkIcon {
+  width: 12px;
+  height: 12px;
+}
+
+@media (max-width: 880px) {
+  .panel {
+    margin: 0;
+    max-width: none;
+    padding: 36px var(--section-padding-inline) 40px;
+  }
 }

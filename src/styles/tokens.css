@@ -127,6 +127,8 @@
   --reveal-cascade-step: 100ms;
   --transition-hover: 0.3s;
   --transition-card: 0.4s;
+  /* Orbite's easing: one decelerating curve for every entrance and reveal. */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 
   /* ---------------------------------------------------------------- Layers */
   --z-nav: 50;

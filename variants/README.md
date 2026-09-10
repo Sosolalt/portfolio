@@ -1,5 +1,8 @@
 # Variantes de la page d'accueil
 
+**Version retenue : 05 — Orbite** (choix du 10 septembre 2026). Les autres sont
+conservées comme historique du travail.
+
 Trois pages HTML autonomes, à ouvrir directement dans le navigateur (ou avec
 l'aperçu de VS Code) pour les comparer au site actuel (`npm run dev`).
 
