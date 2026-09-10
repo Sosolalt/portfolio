@@ -1,0 +1,141 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-modal);
+  background: var(--color-overlay);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  display: flex;
+  /* Docked to the bottom of the viewport, phone-sheet style. */
+  align-items: flex-end;
+  justify-content: center;
+  padding: 0;
+}
+
+.panel {
+  box-sizing: border-box;
+  position: relative;
+  width: 100%;
+  max-width: var(--modal-max-width);
+  max-height: 88svh;
+  overflow-y: auto;
+  margin: 0 12px;
+  padding: 40px 36px;
+  background: var(--color-bg-modal);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-modal);
+}
+
+.close {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  width: 36px;
+  height: 36px;
+  background: none;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-pill);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  font-size: 15px;
+}
+
+.close:hover {
+  color: var(--color-text-strong);
+  border-color: var(--border-subtle-hover);
+}
+
+.tag {
+  margin: 0 0 12px;
+  font-family: var(--font-mono);
+  font-size: var(--type-tag-size);
+  text-transform: uppercase;
+  letter-spacing: var(--type-tag-tracking);
+  color: var(--accent);
+}
+
+.title {
+  margin: 0 0 16px;
+  font-size: 1.7rem;
+  font-weight: 600;
+}
+
+.short {
+  margin: 0 0 24px;
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--color-text-secondary);
+}
+
+.details {
+  list-style: none;
+  margin: 0 0 28px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--card-gap);
+}
+
+.detail {
+  display: flex;
+  gap: 12px;
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--color-text-soft);
+}
+
+.bullet {
+  color: var(--accent);
+  flex-shrink: 0;
+}
+
+.stackLabel {
+  margin: 0 0 10px;
+  font-family: var(--font-mono);
+  font-size: var(--type-tag-size);
+  text-transform: uppercase;
+  letter-spacing: var(--type-tag-tracking);
+  color: var(--color-text-muted);
+}
+
+.chips {
+  list-style: none;
+  margin: 0 0 28px;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--chip-gap);
+}
+
+/* Same chip recipe as the project card; the two live in separate CSS modules
+   and cannot share a class without a file this slice does not own. */
+.chip {
+  font-size: var(--type-chip-size);
+  padding: 5px 12px;
+  border-radius: var(--radius-pill);
+  background: var(--color-surface-chip);
+  border: 1px solid var(--border-chip);
+  color: var(--color-text-soft);
+}
+
+.link {
+  display: inline-block;
+  padding: 12px 26px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--accent);
+  font-family: var(--font-mono);
+  font-size: var(--type-pill-size);
+  text-transform: uppercase;
+  letter-spacing: var(--type-pill-tracking);
+  color: var(--accent);
+  transition:
+    color var(--transition-hover),
+    background-color var(--transition-hover);
+}
+
+/* `global.css` ships an `a:hover` rule of equal specificity and is injected
+   after the CSS modules; the doubled class keeps the filled state winning. */
+.link.link:hover {
+  color: var(--color-bg);
+  background: var(--accent);
+}

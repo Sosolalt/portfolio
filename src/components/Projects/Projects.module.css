@@ -1,0 +1,26 @@
+.section {
+  max-width: var(--content-max-width);
+  margin: 0 auto;
+  padding: var(--section-padding-block) var(--section-padding-inline);
+}
+
+.title {
+  margin: 0 0 54px;
+  font-family: var(--font-mono);
+  font-size: var(--type-section-title-size);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: var(--type-section-title-tracking);
+  /* Trailing letter-spacing is added after the last glyph too; the matching
+     padding puts the word back on the optical centre. */
+  padding-left: var(--type-section-title-tracking);
+  color: var(--color-text-muted);
+  text-align: center;
+}
+
+.grid {
+  display: grid;
+  /* `min(100%, 340px)` keeps the single column from overflowing at 360px. */
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));
+  gap: var(--grid-gap);
+}

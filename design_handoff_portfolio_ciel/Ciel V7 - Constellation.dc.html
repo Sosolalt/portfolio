@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lucas Majerczyk — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&display=swap" rel="stylesheet">
+<style>
+html{scroll-behavior:smooth}
+html,body{margin:0;padding:0;background:#0A0F1E;color:#E2E8F0;font-family:'Satoshi',ui-sans-serif,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+::selection{background:#8FE3CF;color:#0A0F1E}
+a{color:#94A3B8;text-decoration:none}
+a:hover{color:#E2E8F0}
+button{font-family:inherit}
+h1,h3{font-family:'Space Grotesk','Satoshi',sans-serif}
+@keyframes pulseRing{0%{transform:scale(0.52);opacity:0}6%{opacity:0.85}55%{opacity:0.25}100%{transform:scale(1.9);opacity:0}}
+@keyframes blink{50%{opacity:0}}
+</style>
+</helmet>
+
+<nav style="position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:18px 28px;background:rgba(10,15,30,0.7);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid rgba(148,163,184,0.14)">
+  <a href="#top" style="font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:600;letter-spacing:0.14em;color:#E2E8F0">Lucas <span style="color:#8FE3CF">Majerczyk</span></a>
+  <div style="display:flex;gap:26px">
+    <a href="#projets" style="font-family:'Geist Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.18em;color:#94A3B8" style-hover="color:#FFFFFF">Projets</a>
+    <a href="#a-propos" style="font-family:'Geist Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.18em;color:#94A3B8" style-hover="color:#FFFFFF">À propos</a>
+    <a href="#contact" style="font-family:'Geist Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.18em;color:#94A3B8" style-hover="color:#FFFFFF">Contact</a>
+  </div>
+</nav>
+
+<section id="top" data-screen-label="Hero" style="position:relative;height:100svh;min-height:560px;overflow:hidden">
+  <canvas ref="{{ canvasRef }}" onClick="{{ wish }}" aria-hidden="true" style="position:absolute;inset:0;width:100%;height:100%;cursor:pointer;display:block"></canvas>
+  <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none">
+    <div style="position:relative;width:460px;height:460px;max-width:92vw;max-height:92vw">
+      <div style="position:absolute;inset:27%;border-radius:50%;border:1px solid rgba(148,163,184,0.20)"></div>
+      <div style="position:absolute;inset:16%;border-radius:50%;border:1px solid rgba(148,163,184,0.15)"></div>
+      <div style="position:absolute;inset:4%;border-radius:50%;border:1px solid rgba(148,163,184,0.10)"></div>
+      <div ref="{{ ring1Ref }}" style="position:absolute;inset:4%;border-radius:50%;border:1.5px solid rgba(186,201,219,0.75);box-shadow:0 0 18px rgba(148,163,184,0.18), inset 0 0 18px rgba(148,163,184,0.10);animation:pulseRing 3.4s cubic-bezier(0.25,0.6,0.4,1) infinite"></div>
+      <div ref="{{ ring2Ref }}" style="position:absolute;inset:4%;border-radius:50%;border:1.5px solid rgba(186,201,219,0.55);box-shadow:0 0 18px rgba(148,163,184,0.18), inset 0 0 18px rgba(148,163,184,0.10);animation:pulseRing 3.4s cubic-bezier(0.25,0.6,0.4,1) 0.45s infinite"></div>
+    </div>
+  </div>
+  <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 24px;pointer-events:none">
+    <div style="font-family:'Geist Mono',monospace;font-size:12px;text-transform:uppercase;letter-spacing:0.24em;padding-left:0.24em;color:#64748B;margin-bottom:26px">Ingénieur informatique · Spécialité IA — Paris</div>
+    <h1 style="margin:0;font-weight:700;font-size:clamp(2.7rem,7.5vw,5.4rem);letter-spacing:-0.02em;line-height:1.04;color:#E2E8F0">Lucas Majerczyk</h1>
+    <div style="margin-top:20px;font-family:'Geist Mono',monospace;font-size:13px;text-transform:uppercase;letter-spacing:0.2em;padding-left:0.2em;color:#8FE3CF">AI Engineer &amp; Business Developer</div>
+    <div style="height:2.2em;margin-top:22px;display:flex;align-items:center;justify-content:center;font-size:clamp(1rem,2.2vw,1.35rem);color:#94A3B8">
+      <span ref="{{ typeRef }}"></span><span style="color:#8FE3CF;animation:blink 1.05s step-start infinite;margin-left:2px">|</span>
+    </div>
+    <div style="display:flex;gap:14px;margin-top:34px;flex-wrap:wrap;justify-content:center">
+      <a href="#projets" style="pointer-events:auto;display:inline-block;padding:12px 26px;border-radius:999px;border:1px solid rgba(148,163,184,0.3);background:rgba(10,15,30,0.35);font-family:'Geist Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.18em;color:#94A3B8;transition:color 0.3s,border-color 0.3s" style-hover="color:#FFFFFF;border-color:#8FE3CF">Projets</a>
+      <a href="#a-propos" style="pointer-events:auto;display:inline-block;padding:12px 26px;border-radius:999px;border:1px solid rgba(148,163,184,0.3);background:rgba(10,15,30,0.35);font-family:'Geist Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.18em;color:#94A3B8;transition:color 0.3s,border-color 0.3s" style-hover="color:#FFFFFF;border-color:#8FE3CF">À propos</a>
+      <a href="#contact" style="pointer-events:auto;display:inline-block;padding:12px 26px;border-radius:999px;border:1px solid rgba(148,163,184,0.3);background:rgba(10,15,30,0.35);font-family:'Geist Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.18em;color:#94A3B8;transition:color 0.3s,border-color 0.3s" style-hover="color:#FFFFFF;border-color:#8FE3CF">Contact</a>
+    </div>
+  </div>
+  <div style="position:absolute;bottom:26px;left:0;right:0;text-align:center;pointer-events:none;font-family:'Geist Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.18em;padding-left:0.18em;color:#64748B">clique dans le ciel pour faire un vœu ✦</div>
+</section>
+
+<section id="projets" data-screen-label="Projets" style="max-width:1060px;margin:0 auto;padding:110px 24px">
+  <h2 data-reveal="" style="margin:0 0 54px;font-family:'Geist Mono',monospace;font-size:14px;font-weight:400;text-transform:uppercase;letter-spacing:0.3em;padding-left:0.3em;color:#64748B;text-align:center">Projets</h2>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:20px">
+    <sc-for list="{{ projects }}" as="p" hint-placeholder-count="4">
+      <button data-reveal="cascade" onClick="{{ p.open }}" style="box-sizing:border-box;text-align:left;background:rgba(148,163,184,0.045);border:1px solid rgba(148,163,184,0.22);border-top:2px solid {{ p.accent }};border-radius:0 0 16px 16px;padding:32px;color:#E2E8F0;cursor:pointer;transition:transform 0.4s,border-color 0.4s;display:flex;flex-direction:column;gap:14px" style-hover="transform:translateY(-3px);background:rgba(148,163,184,0.09)">
+        <div style="font-family:'Geist Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.14em;color:{{ p.accent }}">{{ p.tag }}</div>
+        <div style="font-family:'Space Grotesk',sans-serif;font-size:1.5rem;font-weight:600;line-height:1.25">{{ p.title }}</div>
+        <div style="font-size:14px;line-height:1.65;color:#94A3B8">{{ p.short }}</div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px">
+          <sc-for list="{{ p.metrics }}" as="m" hint-placeholder-count="3">
+            <span style="font-size:11px;padding:5px 12px;border-radius:999px;background:rgba(148,163,184,0.10);border:1px solid rgba(148,163,184,0.30);color:#CBD5E1">{{ m }}</span>
+          </sc-for>
+        </div>
+        <div style="margin-top:auto;padding-top:6px;font-family:'Geist Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.18em;color:{{ p.accent }}">Étude de cas →</div>
+      </button>
+    </sc-for>
+  </div>
+</section>
+
+<sc-if value="{{ modalOpen }}" hint-placeholder-val="{{ false }}">
+  <div onClick="{{ closeModal }}" role="dialog" aria-modal="true" aria-label="{{ modal.title }}" style="position:fixed;inset:0;z-index:100;background:rgba(4,7,16,0.72);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);display:flex;align-items:flex-end;justify-content:center;padding:0">
+    <div onClick="{{ stopProp }}" style="box-sizing:border-box;background:#0D1426;border:1px solid rgba(148,163,184,0.14);border-radius:20px 20px 0 0;width:100%;max-width:42rem;max-height:88svh;overflow-y:auto;padding:40px 36px;position:relative;margin:0 12px">
+      <button onClick="{{ closeModal }}" aria-label="Fermer" style="position:absolute;top:18px;right:18px;background:none;border:1px solid rgba(148,163,184,0.14);border-radius:999px;width:36px;height:36px;color:#94A3B8;cursor:pointer;font-size:15px" style-hover="color:#FFFFFF;border-color:rgba(148,163,184,0.4)">✕</button>
+      <div style="font-family:'Geist Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.14em;color:{{ modal.accent }};margin-bottom:12px">{{ modal.tag }}</div>
+      <h3 style="margin:0 0 16px;font-size:1.7rem;font-weight:600">{{ modal.title }}</h3>
+      <p style="margin:0 0 24px;font-size:15px;line-height:1.7;color:#94A3B8">{{ modal.short }}</p>
+      <ul style="list-style:none;margin:0 0 28px;padding:0;display:flex;flex-direction:column;gap:14px">
+        <sc-for list="{{ modal.details }}" as="d" hint-placeholder-count="4">
+          <li style="display:flex;gap:12px;font-size:14px;line-height:1.65;color:#CBD5E1"><span style="color:{{ modal.accent }};flex-shrink:0">●</span><span>{{ d }}</span></li>
+        </sc-for>
+      </ul>
+      <div style="font-family:'Geist Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.14em;color:#64748B;margin-bottom:10px">Stack</div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:28px">
+        <sc-for list="{{ modal.stack }}" as="s" hint-placeholder-count="4">
+          <span style="font-size:11px;padding:5px 12px;border-radius:999px;background:rgba(148,163,184,0.10);border:1px solid rgba(148,163,184,0.30);color:#CBD5E1">{{ s }}</span>
+        </sc-for>
+      </div>
+      <sc-if value="{{ modal.link }}" hint-placeholder-val="{{ false }}">
+        <a href="{{ modal.link }}" target="_blank" rel="noopener" style="display:inline-block;padding:12px 26px;border-radius:999px;border:1px solid {{ modal.accent }};font-family:'Geist Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.18em;color:{{ modal.accent }}" style-hover="color:#0A0F1E;background:{{ modal.accent }}">{{ modal.linkLabel }} ↗</a>
+      </sc-if>
+    </div>
+  </div>
+</sc-if>
+
+<section id="a-propos" data-screen-label="À propos" style="border-top:1px solid rgba(148,163,184,0.32);border-bottom:1px solid rgba(148,163,184,0.32)">
+  <div data-reveal="" style="max-width:48rem;margin:0 auto;padding:110px 24px;text-align:center">
+    <h2 style="margin:0 0 40px;font-family:'Geist Mono',monospace;font-size:14px;font-weight:400;text-transform:uppercase;letter-spacing:0.3em;padding-left:0.3em;color:#64748B">À propos</h2>
+    <p style="margin:0 0 36px;font-size:clamp(1.05rem,2vw,1.25rem);line-height:1.8;color:#CBD5E1">En diplôme d'ingénieur en informatique, spécialité IA, je travaille à l'intersection du machine learning et de l'ingénierie logicielle&nbsp;: streaming distribué, trading quantitatif, agents outillés. Ce qui m'intéresse, c'est ce qui tient en production — pas seulement en notebook.</p>
+    <div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center">
+      <sc-for list="{{ skills }}" as="sk" hint-placeholder-count="8">
+        <span style="font-size:11px;padding:6px 14px;border-radius:999px;background:rgba(148,163,184,0.10);border:1px solid rgba(148,163,184,0.34);color:#CBD5E1;text-transform:uppercase;letter-spacing:0.12em">{{ sk }}</span>
+      </sc-for>
+    </div>
+  </div>
+</section>
+
+<section id="contact" data-screen-label="Contact" style="text-align:center;padding:110px 24px 60px">
+  <div data-reveal="">
+    <h2 style="margin:0 0 32px;font-family:'Geist Mono',monospace;font-size:14px;font-weight:400;text-transform:uppercase;letter-spacing:0.3em;padding-left:0.3em;color:#64748B">Contact</h2>
+    <p style="margin:0 0 36px;font-size:clamp(1.1rem,2.4vw,1.5rem);color:#E2E8F0;font-weight:500">Un projet, un stage, une question&nbsp;? Parlons-en.</p>
+    <a href="mailto:lucas.majerczyk@gmail.com" style="display:inline-block;margin-bottom:40px;font-family:'Space Grotesk',sans-serif;font-size:clamp(1.5rem,4.2vw,3rem);font-weight:600;letter-spacing:-0.018em;color:#E2E8F0;border-bottom:1px solid rgba(143,227,207,0.4);padding-bottom:6px" style-hover="color:#8FE3CF">lucas.majerczyk@gmail.com</a>
+    <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:28px">
+      <a href="https://github.com/NCH04" target="_blank" rel="noopener" style="display:inline-block;padding:12px 28px;border-radius:999px;border:1px solid rgba(148,163,184,0.45);font-family:'Geist Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.18em;color:#94A3B8;transition:color 0.3s,border-color 0.3s" style-hover="color:#FFFFFF;border-color:#8FE3CF">GitHub ↗</a>
+      <a href="https://www.linkedin.com/in/lucas-majerczyk/" target="_blank" rel="noopener" style="display:inline-block;padding:12px 28px;border-radius:999px;border:1px solid rgba(148,163,184,0.45);font-family:'Geist Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.18em;color:#94A3B8;transition:color 0.3s,border-color 0.3s" style-hover="color:#FFFFFF;border-color:#8FE3CF">LinkedIn ↗</a>
+    </div>
+    <div style="margin-top:80px;font-family:'Geist Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.18em;color:#64748B">© 2026 · Lucas Majerczyk</div>
+  </div>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;starCount&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:170,&quot;min&quot;:40,&quot;max&quot;:400,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Ciel&quot;},&quot;shootInterval&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:4.5,&quot;min&quot;:2,&quot;max&quot;:12,&quot;step&quot;:0.5,&quot;unit&quot;:&quot;s&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Ciel&quot;},&quot;heartbeatSeconds&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:3.4,&quot;min&quot;:2,&quot;max&quot;:6,&quot;step&quot;:0.1,&quot;unit&quot;:&quot;s&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Battement&quot;}}">
+class Component extends DCLogic {
+  state = { modal: null };
+  _canvas = null; _type = null; _timers = []; _raf = 0;
+
+  canvasRef = (el) => { this._canvas = el; };
+  typeRef = (el) => { this._type = el; };
+  ring1Ref = (el) => { this._ring1 = el; };
+  ring2Ref = (el) => { this._ring2 = el; };
+
+  data = [
+    { title: "FreightPulse", accent: "#8FE3CF", tag: "Data engineering · Streaming",
+      short: "Plateforme IoT temps réel pour conteneurs frigorifiques : télémétrie toutes les 30 s, alertes SMS basse latence, data lake Bronze/Silver/Gold.",
+      metrics: ["5 composants Scala", "Kafka · Spark · Redis · MinIO", "Alertes basse latence"],
+      details: [
+        "Une flotte simulée d'appareils émet température, humidité, salinité et GPS toutes les 30 secondes vers Kafka.",
+        "Sélecteur d'alertes : consumer Kafka croisé avec des seuils stockés dans Redis, publication sur un topic dédié freight-alerts, notification « SMS » en aval.",
+        "Data lake médaillon sur MinIO : trois jobs Spark distincts (Ingest → Bronze, Silver, Gold), puis analyse batch répondant à 4 questions métier.",
+        "Choix d'architecture assumé : 5 projets sbt totalement indépendants (5 build.sbt, 5 Main), exécutables isolément, sans Docker — Kafka, Redis et MinIO tournent nativement."
+      ],
+      stack: ["Scala", "Kafka", "Spark", "Redis", "MinIO (S3)", "sbt"],
+      link: "https://github.com/NCH04/freightpulse-/blob/main/DEPLOYMENT.md", linkLabel: "DEPLOYMENT.md sur GitHub" },
+    { title: "IMC Trading Competition 2026", accent: "#C4B5FD", tag: "Trading quantitatif",
+      short: "Deux compétitions en une : un Qualifier conclu #6 en France, puis une Finale — un pari Black-Scholes exposé, et un pivot Round 5 vers l'arbitrage structurel.",
+      metrics: ["#6 France (Qualifier)", "Options · IV smile", "Pivot stratégique R5"],
+      details: [
+        "Format en deux temps : Qualifier (R1+R2) puis Finale (R3+R4+R5) avec remise à zéro du classement.",
+        "Qualifier solide terminé 6e en France sur des stratégies de market making et de suivi de signal.",
+        "La Finale a introduit un nouvel univers d'options : mon pari fondé sur Black-Scholes et le smile de volatilité implicite s'est retrouvé sans garde-fou face au régime réel du marché.",
+        "Round 5 : pivot vers l'arbitrage structurel entre produits liés — l'approche qui a enfin cliqué, et la vraie leçon du tournoi : la robustesse bat l'élégance théorique."
+      ],
+      stack: ["Python", "Black-Scholes", "Market making", "Arbitrage"], link: null, linkLabel: null },
+    { title: "Mitsui Commodity Prediction", accent: "#9CC7FD", tag: "Machine learning · Séries temporelles",
+      short: "Soumission finale au challenge Kaggle : prédire les mouvements de 424 cibles financières multi-actifs à partir de séries temporelles historiques.",
+      metrics: ["424 cibles", "Anti look-ahead bias", "Validation walk-forward"],
+      details: [
+        "Données financières intrinsèquement bruitées : l'approche privilégie la stabilité du signal plutôt que la performance de backtest.",
+        "Prévention systématique du look-ahead bias à chaque étape du feature engineering.",
+        "Extraction de signaux cross-asset stables entre classes d'actifs (métaux, énergie, FX…).",
+        "Pipeline de validation robuste conçu pour limiter l'overfitting temporel — le vrai différenciateur sur ce type de compétition."
+      ],
+      stack: ["Python", "Gradient boosting", "Feature engineering", "Validation temporelle"],
+      link: "https://www.kaggle.com/competitions/mitsui-commodity-prediction-challenge", linkLabel: "Compétition sur Kaggle" },
+    { title: "Signalement citoyen urbain", accent: "#FBC8A9", tag: "Full-stack · Agent IA",
+      short: "Application complète (FastAPI + React) : un citoyen photographie une dégradation urbaine, un agent IA en évalue la gravité en croisant le contexte OpenStreetMap.",
+      metrics: ["Classification d'image", "Agent + tool calling", "Contexte géo OSM"],
+      details: [
+        "Upload photo + coordonnées GPS du dégât constaté par le citoyen.",
+        "Classification automatique du type de dégradation à partir de l'image.",
+        "Un agent IA évalue ensuite la gravité : il croise le type de dégât avec le contexte géographique (proximité d'une école, d'un axe passant…) obtenu via tool calling sur OpenStreetMap.",
+        "Le projet démontre la chaîne complète : produit web, modèle de vision, et raisonnement agentique outillé."
+      ],
+      stack: ["FastAPI", "React", "Agent IA", "Tool calling", "OpenStreetMap"], link: null, linkLabel: null }
+  ];
+
+  renderVals() {
+    const i = this.state.modal;
+    return {
+      canvasRef: this.canvasRef, typeRef: this.typeRef, ring1Ref: this.ring1Ref, ring2Ref: this.ring2Ref,
+      wish: this.wish, closeModal: this.closeModal, stopProp: (e) => e.stopPropagation(),
+      projects: this.data.map((p, idx) => ({ ...p, open: () => this.openModal(idx) })),
+      modalOpen: i != null, modal: i != null ? this.data[i] : {},
+      skills: ["Python", "Scala", "Kafka", "Spark", "FastAPI", "React", "ML temporel", "Agents IA"]
+    };
+  }
+
+  openModal = (i) => { this.setState({ modal: i }); document.body.style.overflow = "hidden"; };
+  closeModal = () => { this.setState({ modal: null }); document.body.style.overflow = ""; };
+
+  componentDidMount() {
+    this.reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (this.reduced) {
+      const s = document.createElement("style");
+      s.textContent = "*{animation:none !important;transition:none !important}";
+      document.head.appendChild(s);
+    }
+    const hb = this.props.heartbeatSeconds;
+    if (hb && this._ring1) { this._ring1.style.animationDuration = hb + "s"; this._ring2.style.animationDuration = hb + "s"; }
+    this._onKey = (e) => { if (e.key === "Escape" && this.state.modal != null) this.closeModal(); };
+    window.addEventListener("keydown", this._onKey);
+    this._boot = setTimeout(() => { this.initCanvas(); this.initType(); this.initReveals(); }, 60);
+  }
+
+  componentWillUnmount() {
+    cancelAnimationFrame(this._raf);
+    clearTimeout(this._boot);
+    this._timers.forEach(clearTimeout);
+    window.removeEventListener("keydown", this._onKey);
+    if (this._onMove) window.removeEventListener("mousemove", this._onMove);
+    if (this._onResize) window.removeEventListener("resize", this._onResize);
+    if (this._io) this._io.disconnect();
+    document.body.style.overflow = "";
+  }
+
+  initCanvas() {
+    const cv = this._canvas;
+    if (!cv) return;
+    const ctx = cv.getContext("2d");
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    let W = 0, H = 0;
+    const resize = () => {
+      W = cv.clientWidth; H = cv.clientHeight;
+      cv.width = W * dpr; cv.height = H * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    };
+    resize();
+    this._onResize = resize;
+    window.addEventListener("resize", resize);
+
+    const N = this.props.starCount ?? 170;
+    const stars = Array.from({ length: N }, () => ({
+      x: Math.random(), y: Math.random(), depth: Math.random(),
+      r: 0.4 + Math.random() * 1.3, phase: Math.random() * Math.PI * 2,
+      speed: 0.4 + Math.random() * 0.8
+    }));
+    const shooters = [];
+    const spawn = (x, y) => {
+      if (shooters.length >= 2 && x === undefined) return;
+      shooters.push({
+        x: x !== undefined ? x : W * (0.2 + Math.random() * 0.8),
+        y: y !== undefined ? y : H * Math.random() * 0.33,
+        vx: -(3.2 + Math.random() * 2.4), vy: 1.6 + Math.random() * 1.4,
+        life: 0, max: 1.5
+      });
+    };
+    this._spawn = spawn;
+    const interval = (this.props.shootInterval ?? 4.5) * 1000;
+    let nextSpawn = performance.now() + interval;
+
+    const mouse = { x: 0, y: 0 }, cur = { x: 0, y: 0 };
+    this._onMove = (e) => {
+      mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+      mouse.y = (e.clientY / window.innerHeight) * 2 - 1;
+    };
+    window.addEventListener("mousemove", this._onMove);
+
+    const drawStars = (t) => {
+      for (const s of stars) {
+        const ox = cur.x * (6 + s.depth * 20), oy = cur.y * (4 + s.depth * 14);
+        const a = this.reduced ? 0.7 : 0.9 * (0.3 + 0.7 * Math.abs(Math.sin(s.phase + t * 0.001 * s.speed)));
+        ctx.beginPath();
+        ctx.arc(s.x * W + ox, s.y * H + oy, s.r, 0, Math.PI * 2);
+        ctx.fillStyle = "rgba(226,232,240," + a.toFixed(3) + ")";
+        ctx.fill();
+      }
+    };
+
+    if (this.reduced) { drawStars(0); return; }
+
+    let last = performance.now();
+    const loop = (t) => {
+      const dt = Math.min((t - last) / 1000, 0.05); last = t;
+      cur.x += (mouse.x - cur.x) * 0.04; cur.y += (mouse.y - cur.y) * 0.04;
+      ctx.clearRect(0, 0, W, H);
+      drawStars(t);
+      if (t > nextSpawn) { spawn(); nextSpawn = t + interval * (0.7 + Math.random() * 0.8); }
+      for (let i = shooters.length - 1; i >= 0; i--) {
+        const sh = shooters[i];
+        sh.life += dt;
+        sh.x += sh.vx * dt * 60; sh.y += sh.vy * dt * 60;
+        if (sh.life > sh.max) { shooters.splice(i, 1); continue; }
+        const fade = 1 - sh.life / sh.max;
+        const len = 110, mag = Math.hypot(sh.vx, sh.vy);
+        const tx = sh.x - (sh.vx / mag) * len, ty = sh.y - (sh.vy / mag) * len;
+        const g = ctx.createLinearGradient(sh.x, sh.y, tx, ty);
+        g.addColorStop(0, "rgba(248,250,252," + (0.9 * fade).toFixed(3) + ")");
+        g.addColorStop(1, "rgba(248,250,252,0)");
+        ctx.strokeStyle = g; ctx.lineWidth = 1.5; ctx.lineCap = "round";
+        ctx.beginPath(); ctx.moveTo(sh.x, sh.y); ctx.lineTo(tx, ty); ctx.stroke();
+        ctx.beginPath(); ctx.arc(sh.x, sh.y, 1.8, 0, Math.PI * 2);
+        ctx.fillStyle = "rgba(248,250,252," + fade.toFixed(3) + ")"; ctx.fill();
+      }
+      this._raf = requestAnimationFrame(loop);
+    };
+    this._raf = requestAnimationFrame(loop);
+  }
+
+  wish = (e) => {
+    if (!this._spawn || this.reduced) return;
+    const rect = this._canvas.getBoundingClientRect();
+    this._spawn(e.clientX - rect.left, e.clientY - rect.top);
+  };
+
+  initType() {
+    const el = this._type;
+    if (!el) return;
+    const words = ["Streaming & data lakes.", "Trading quantitatif.", "Agents outillés.", "ML temporel."];
+    if (this.reduced) { el.textContent = words[0]; return; }
+    let wi = 0, ci = 0, del = false;
+    const tick = () => {
+      const w = words[wi];
+      if (!del) {
+        ci++; el.textContent = w.slice(0, ci);
+        if (ci === w.length) { del = true; this._timers.push(setTimeout(tick, 1600)); return; }
+        this._timers.push(setTimeout(tick, 95));
+      } else {
+        ci--; el.textContent = w.slice(0, ci);
+        if (ci === 0) { del = false; wi = (wi + 1) % words.length; }
+        this._timers.push(setTimeout(tick, 45));
+      }
+    };
+    tick();
+  }
+
+  initReveals() {
+    const els = document.querySelectorAll("[data-reveal]");
+    if (this.reduced) return;
+    let cascade = 0;
+    els.forEach((el) => {
+      el.style.opacity = "0";
+      el.style.transform = "translateY(22px)";
+      el.style.transition = "opacity 0.8s ease, transform 0.8s ease";
+      if (el.getAttribute("data-reveal") === "cascade") {
+        el.style.transitionDelay = (cascade * 100) + "ms"; cascade++;
+      }
+    });
+    this._io = new IntersectionObserver((entries) => {
+      entries.forEach((en) => {
+        if (en.isIntersecting) {
+          en.target.style.opacity = "1";
+          en.target.style.transform = "translateY(0)";
+          this._io.unobserve(en.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    els.forEach((el) => this._io.observe(el));
+  }
+}
+</script>
+</body>
+</html>

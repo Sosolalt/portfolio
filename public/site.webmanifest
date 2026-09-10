@@ -1,0 +1,11 @@
+{
+  "name": "Lucas Majerczyk — Portfolio",
+  "short_name": "L. Majerczyk",
+  "description": "Portfolio de Lucas Majerczyk, ingénieur informatique spécialité IA à Paris.",
+  "lang": "fr",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0A0F1E",
+  "theme_color": "#0A0F1E",
+  "icons": [{ "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml" }]
+}

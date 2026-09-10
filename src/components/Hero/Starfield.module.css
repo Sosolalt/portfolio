@@ -1,0 +1,9 @@
+.canvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  /* The whole sky is clickable — "clique dans le ciel pour faire un vœu". */
+  cursor: pointer;
+}

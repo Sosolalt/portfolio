@@ -1,0 +1,53 @@
+.section {
+  border-top: 1px solid var(--border-section);
+  border-bottom: 1px solid var(--border-section);
+}
+
+.inner {
+  max-width: var(--prose-max-width);
+  margin: 0 auto;
+  padding: var(--section-padding-block) var(--section-padding-inline);
+  text-align: center;
+}
+
+.title {
+  margin: 0 0 40px;
+  font-family: var(--font-mono);
+  font-size: var(--type-section-title-size);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: var(--type-section-title-tracking);
+  /* Matches the tracking so the uppercase label stays optically centred. */
+  padding-left: var(--type-section-title-tracking);
+  color: var(--color-text-muted);
+}
+
+.paragraph {
+  margin: 0 0 36px;
+  font-size: var(--type-about-size);
+  line-height: var(--type-about-leading);
+  color: var(--color-text-soft);
+}
+
+.skills {
+  display: flex;
+  flex-wrap: wrap;
+  /* No token: the card metric chips sit at --chip-gap (8px); these are 10px. */
+  gap: 10px;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Deliberately not the card metric chip: roomier padding, stronger border, uppercase. */
+.skill {
+  font-size: var(--type-chip-size);
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  background: var(--color-surface-chip);
+  border: 1px solid var(--border-chip-strong);
+  color: var(--color-text-soft);
+  text-transform: uppercase;
+  letter-spacing: var(--type-chip-tracking);
+}

@@ -1,0 +1,101 @@
+/**
+ * Ring colours are the only hero values with no token — `tokens.css` is shared
+ * with the other components, so they stay literal here, exactly as validated.
+ */
+
+.layer {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+/* Square, and capped at 92vw so it never forces a horizontal scrollbar. */
+.field {
+  position: relative;
+  width: 460px;
+  height: 460px;
+  max-width: 92vw;
+  max-height: 92vw;
+}
+
+.ringOuter,
+.ringMiddle,
+.ringInner {
+  position: absolute;
+  border-radius: 50%;
+}
+
+.ringOuter {
+  inset: 27%;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+}
+
+.ringMiddle {
+  inset: 16%;
+  border: 1px solid rgba(148, 163, 184, 0.15);
+}
+
+.ringInner {
+  inset: 4%;
+  border: 1px solid rgba(148, 163, 184, 0.1);
+}
+
+/**
+ * Defined here, not in global.css: CSS Modules scopes the `animation-name`
+ * below, so the keyframes it points at have to be scoped alongside it.
+ */
+@keyframes pulseRing {
+  0% {
+    transform: scale(0.52);
+    opacity: 0;
+  }
+  6% {
+    opacity: 0.85;
+  }
+  55% {
+    opacity: 0.25;
+  }
+  100% {
+    transform: scale(1.9);
+    opacity: 0;
+  }
+}
+
+.pulse {
+  position: absolute;
+  inset: 4%;
+  border-radius: 50%;
+  box-shadow:
+    0 0 18px rgba(148, 163, 184, 0.18),
+    inset 0 0 18px rgba(148, 163, 184, 0.1);
+  animation: pulseRing var(--heartbeat-duration) var(--heartbeat-easing) infinite;
+}
+
+.pulseLub {
+  border: 1.5px solid rgba(186, 201, 219, 0.75);
+}
+
+/* Declared after `.pulse` so its shorthand does not reset the delay back to 0. */
+.pulseDub {
+  border: 1.5px solid rgba(186, 201, 219, 0.55);
+  animation-delay: var(--heartbeat-offset);
+}
+
+/**
+ * With the animation off (global.css kills it), both pulse rings would sit at
+ * full opacity on top of `.ringInner` — one over-bright ring with a doubled
+ * glow. Keep a single, calmer ring so the still composition reads as three
+ * deliberate concentric circles rather than an animation caught mid-frame.
+ */
+@media (prefers-reduced-motion: reduce) {
+  .pulseDub {
+    display: none;
+  }
+
+  .pulseLub {
+    border-color: rgba(186, 201, 219, 0.4);
+  }
+}

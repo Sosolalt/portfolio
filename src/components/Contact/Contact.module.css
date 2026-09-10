@@ -1,0 +1,83 @@
+.footer {
+  text-align: center;
+  padding: var(--section-padding-block) var(--section-padding-inline) 60px;
+}
+
+.title {
+  margin: 0 0 32px;
+  font-family: var(--font-mono);
+  font-size: var(--type-section-title-size);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: var(--type-section-title-tracking);
+  /* Matches the tracking so the uppercase label stays optically centred. */
+  padding-left: var(--type-section-title-tracking);
+  color: var(--color-text-muted);
+}
+
+.hook {
+  margin: 0 0 36px;
+  font-size: var(--type-hook-size);
+  color: var(--color-text);
+  font-weight: 500;
+}
+
+/* V7 signature: the address itself is the call to action. */
+.email {
+  display: inline-block;
+  margin-bottom: 40px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--type-email-size);
+  letter-spacing: var(--type-email-tracking);
+  color: var(--color-text);
+  border-bottom: 1px solid var(--border-email);
+  padding-bottom: 6px;
+  transition: color var(--transition-hover);
+  /* The address is long and unbreakable; at 360px it wraps rather than
+     pushing the page sideways. Fallback fonts are wider than Space Grotesk,
+     so this is a guard, not the expected rendering. */
+  max-width: 100%;
+  overflow-wrap: break-word;
+}
+
+.email:hover {
+  color: var(--accent-mint);
+}
+
+.socials {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 28px;
+}
+
+.social {
+  display: inline-block;
+  padding: 12px 28px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border-pill-strong);
+  font-family: var(--font-mono);
+  font-size: var(--type-pill-size);
+  text-transform: uppercase;
+  letter-spacing: var(--type-pill-tracking);
+  color: var(--color-text-secondary);
+  transition:
+    color var(--transition-hover),
+    border-color var(--transition-hover);
+}
+
+.social:hover {
+  color: var(--color-text-strong);
+  border-color: var(--accent-mint);
+}
+
+.copyright {
+  margin-top: 80px;
+  font-family: var(--font-mono);
+  font-size: var(--type-pill-size);
+  text-transform: uppercase;
+  letter-spacing: var(--type-pill-tracking);
+  color: var(--color-text-muted);
+}

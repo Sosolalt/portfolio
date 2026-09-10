@@ -1,0 +1,99 @@
+.hero {
+  position: relative;
+  height: 100svh;
+  min-height: 560px;
+  overflow: hidden;
+}
+
+/* Layer 3. Clicks pass through to the canvas; only the pills take them back. */
+.content {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 var(--section-padding-inline);
+  text-align: center;
+  pointer-events: none;
+}
+
+/**
+ * The wide-tracked uppercase labels carry a matching `padding-left`: letter
+ * spacing is added after the last glyph too, so without it the line sits
+ * fractionally left of centre.
+ */
+.eyebrow {
+  margin: 0 0 26px;
+  padding-left: var(--type-eyebrow-tracking);
+  font-family: var(--font-mono);
+  font-size: var(--type-eyebrow-size);
+  letter-spacing: var(--type-eyebrow-tracking);
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.name {
+  margin: 0;
+  font-size: var(--type-h1-size);
+  font-weight: 700;
+  letter-spacing: var(--type-h1-tracking);
+  line-height: var(--type-h1-leading);
+  color: var(--color-text);
+}
+
+.role {
+  margin: 20px 0 0;
+  padding-left: var(--type-role-tracking);
+  font-family: var(--font-mono);
+  font-size: var(--type-role-size);
+  letter-spacing: var(--type-role-tracking);
+  text-transform: uppercase;
+  color: var(--accent-mint);
+}
+
+.pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  justify-content: center;
+  margin-top: 34px;
+}
+
+.pill {
+  display: inline-block;
+  padding: 12px 26px;
+  border: 1px solid var(--border-pill);
+  border-radius: var(--radius-pill);
+  background: var(--color-surface-pill);
+  font-family: var(--font-mono);
+  font-size: var(--type-pill-size);
+  letter-spacing: var(--type-pill-tracking);
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+  pointer-events: auto;
+  transition:
+    color var(--transition-hover),
+    border-color var(--transition-hover);
+}
+
+.pill:hover {
+  color: var(--color-text-strong);
+  border-color: var(--accent-mint);
+}
+
+.hint {
+  position: absolute;
+  right: 0;
+  bottom: 26px;
+  left: 0;
+  margin: 0;
+  padding-left: var(--type-pill-tracking);
+  font-family: var(--font-mono);
+  font-size: var(--type-pill-size);
+  letter-spacing: var(--type-pill-tracking);
+  text-transform: uppercase;
+  text-align: center;
+  color: var(--color-text-muted);
+  pointer-events: none;
+}

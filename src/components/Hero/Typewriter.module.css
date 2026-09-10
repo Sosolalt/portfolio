@@ -1,0 +1,37 @@
+/**
+ * The row height is fixed at 2.2em on purpose: the four phrases have different
+ * lengths and the caret must never nudge the pills below it.
+ */
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--type-typewriter-height);
+  max-width: 100%;
+  margin-top: 22px;
+  font-size: var(--type-typewriter-size);
+  color: var(--color-text-secondary);
+}
+
+/**
+ * `nowrap` is the other half of the no-layout-shift rule: at 360px the longest
+ * phrase would otherwise wrap to two lines and be clipped by the fixed height.
+ */
+.text {
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+/* Scoped alongside the `animation-name` that references it — see PulseRings. */
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+.cursor {
+  margin-left: 2px;
+  color: var(--accent-mint);
+  animation: blink var(--blink-duration) step-start infinite;
+}

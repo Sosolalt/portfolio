@@ -1,0 +1,74 @@
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: var(--z-nav);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 28px;
+  background: var(--color-nav-bg);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border-nav);
+}
+
+.logo {
+  font-family: var(--font-display);
+  /* No token: the logo is the only 15px / 0.14em display label in the design. */
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  color: var(--color-text);
+  white-space: nowrap;
+}
+
+.logoLastName {
+  color: var(--accent-mint);
+}
+
+.links {
+  display: flex;
+  gap: 26px;
+}
+
+.link {
+  font-family: var(--font-mono);
+  font-size: var(--type-pill-size);
+  text-transform: uppercase;
+  letter-spacing: var(--type-pill-tracking);
+  color: var(--color-text-secondary);
+  white-space: nowrap;
+  transition: color var(--transition-hover);
+}
+
+.link:hover {
+  color: var(--color-text-strong);
+}
+
+/**
+ * Small screens: the handoff only specifies the desktop bar. Type scale is
+ * kept untouched; only padding and gaps tighten, then the bar splits into two
+ * centred rows so the three links never overflow or break mid-word at 360px.
+ * The stacked bar still measures under the 72px `scroll-padding-top` that
+ * keeps anchored sections clear of the nav.
+ */
+@media (max-width: 700px) {
+  .nav {
+    padding: 16px 20px;
+  }
+
+  .links {
+    gap: 18px;
+  }
+}
+
+@media (max-width: 460px) {
+  .nav {
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+    padding: 12px 16px;
+  }
+}
