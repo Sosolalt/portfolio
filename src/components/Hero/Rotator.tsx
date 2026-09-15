@@ -3,11 +3,11 @@ import { useRotator } from '@/hooks/useRotator';
 import styles from './Rotator.module.css';
 
 /**
- * The four hero phrases, one at a time, with a mint rule counting the beat.
+ * The hero phrases, one at a time, with a mint rule counting the beat.
  *
  * The animated stack is hidden from assistive tech — a node whose visible text
  * swaps every 3.2s is noise, not information. A visually hidden sibling
- * carries all four phrases as static text instead, so a screen reader gets the
+ * carries every phrase as static text instead, so a screen reader gets the
  * complete content in one calm read, identical whether or not motion is
  * reduced.
  */

@@ -10,7 +10,7 @@ const THRESHOLD = 0.15;
 
 export interface UseRevealOptions {
   /**
-   * Stagger, in milliseconds. The four project cards cascade at +100ms each;
+   * Stagger, in milliseconds. The project cards cascade at +100ms each;
    * everything else reveals with no delay.
    */
   delayMs?: number;

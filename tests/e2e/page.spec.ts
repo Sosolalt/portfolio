@@ -49,7 +49,7 @@ test('the hero offers both next steps, the first one filled', async ({ page }) =
 });
 
 test.describe('project ledger', () => {
-  test('renders exactly four rows', async ({ page }) => {
+  test('renders exactly one row per project', async ({ page }) => {
     await expect(page.getByRole('button', { name: /^Étude de cas : / })).toHaveCount(
       projects.length,
     );

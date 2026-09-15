@@ -1,5 +1,5 @@
 /**
- * Static site content: everything outside the four projects.
+ * Static site content: everything outside the projects.
  *
  * Copy is validated French from the design handoff. Strings are stored in
  * natural case — the uppercase look of the tags, pill buttons and mono labels
@@ -52,6 +52,7 @@ export const hero = {
     'Trading quantitatif.',
     'Agents outillés.',
     'ML temporel.',
+    'Optimisation sous contrainte.',
   ] as const,
   /** The two next steps under the profile; the first one is the primary action. */
   actions: [

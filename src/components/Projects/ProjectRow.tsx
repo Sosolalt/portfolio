@@ -19,7 +19,7 @@ export interface ProjectRowProps {
 /**
  * One project as a full-width ruled row.
  *
- * A ledger rather than a grid of bordered cards: the four projects differ in
+ * A ledger rather than a grid of bordered cards: the projects differ in
  * length, and a register lets each one take the room it needs while the rules
  * keep the page on one axis. The project's accent is the hairline that draws
  * itself across the top edge on hover.

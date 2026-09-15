@@ -1,7 +1,8 @@
 import type { Project } from '@/types';
 
 /**
- * The four projects, copied verbatim from the design handoff.
+ * The projects. The first four are copied verbatim from the design handoff;
+ * anything appended after them follows the same shape and the same voice.
  *
  * This copy is validated French content — do not paraphrase, re-order, fix
  * typography or "improve" it. Metrics are always three per project; details
@@ -80,6 +81,23 @@ export const projects: readonly Project[] = [
       'Le projet démontre la chaîne complète : produit web, modèle de vision, et raisonnement agentique outillé.',
     ],
     stack: ['FastAPI', 'React', 'Agent IA', 'Tool calling', 'OpenStreetMap'],
+    link: null,
+  },
+  {
+    id: 'encheres-combinatoires-vcg',
+    title: 'Enchères combinatoires & VCG',
+    accent: '#8FE3CF',
+    tag: 'Optimisation combinatoire · Enchères',
+    short:
+      'Deux solveurs exacts — CP-SAT et PLNE — pour le Winner Determination Problem en enchères combinatoires, étendus au mécanisme VCG pour le calcul des paiements.',
+    metrics: ['CP-SAT vs PLNE', '18 instances CATS', '45 tests automatisés'],
+    details: [
+      'Modélisation du Winner Determination Problem en Set Packing : un item attribué à au plus une offre gagnante, plafonds de budget global et par soumissionnaire, groupes XOR par soumissionnaire.',
+      "Deux solveurs exacts confrontés sur les mêmes instances — CP-SAT (OR-Tools) et PLNE (PuLP/CBC) — sur 20 benchmarks synthétiques et 18 instances CATS officielles, avec mesure du gap d'intégralité par relaxation linéaire.",
+      "Extension au mécanisme VCG, séparé en deux régimes : canonique (véracité dominante, rationalité individuelle, efficacité) et sous contrainte de budget, où la véracité tombe — démonstration algébrique et contre-exemple numérique de manipulation à l'appui.",
+      "Rôle de tech lead sur une équipe de trois : solveurs, VCG et intégration, plus la tenue du dépôt — issues tracées avec critères d'acceptation, feature branches, relecture croisée sur chaque PR.",
+    ],
+    stack: ['Python', 'OR-Tools CP-SAT', 'PuLP / CBC', 'VCG', 'pytest', 'Jupyter'],
     link: null,
   },
 ];

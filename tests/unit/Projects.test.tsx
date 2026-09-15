@@ -15,7 +15,7 @@ describe('Projects', () => {
     const { rows } = renderProjects();
 
     expect(screen.getByRole('heading', { level: 2, name: 'Projets' })).toBeInTheDocument();
-    expect(rows).toHaveLength(4);
+    expect(rows).toHaveLength(5);
     expect(rows).toHaveLength(projects.length);
   });
 
@@ -79,7 +79,9 @@ describe('Projects', () => {
     const { rows } = renderProjects();
 
     // The first row has no delay, so `useReveal` leaves the style untouched.
-    expect(rows.map((row) => row.style.transitionDelay)).toEqual(['', '100ms', '200ms', '300ms']);
+    expect(rows.map((row) => row.style.transitionDelay)).toEqual(
+      projects.map((_, index) => (index === 0 ? '' : `${index * 100}ms`)),
+    );
 
     for (const row of rows) expect(row).toHaveClass('reveal');
   });

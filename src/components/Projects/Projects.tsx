@@ -10,7 +10,7 @@ export interface ProjectsProps {
   readonly onOpenProject: (index: number) => void;
 }
 
-/** The four projects as one full-width ledger, on the page's centre axis. */
+/** The projects as one full-width ledger, on the page's centre axis. */
 export function Projects({ onOpenProject }: ProjectsProps) {
   const titleId = useId();
   const titleRef = useReveal<HTMLHeadingElement>();
