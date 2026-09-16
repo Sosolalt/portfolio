@@ -100,4 +100,24 @@ export const projects: readonly Project[] = [
     stack: ['Python', 'OR-Tools CP-SAT', 'PuLP / CBC', 'VCG', 'pytest', 'Jupyter'],
     link: null,
   },
+  {
+    id: 'cautela-ma-gatekeeper',
+    title: 'Cautela — M&A Gatekeeper',
+    accent: '#FBC8A9',
+    tag: 'Agents LLM · Observabilité',
+    short:
+      'Revue de contrats de fusion-acquisition par agents : chaque signalement remonte à la clause dont il vient, chaque verdict à sa trace Arize Phoenix.',
+    metrics: ['7 classifieurs en parallèle', 'Gemini · ADK · Phoenix', '571 tests Python'],
+    details: [
+      "Chaîne d'agents Google ADK : extraction des clauses d'un Exhibit 2.1 via Gemini Files API, fan-out de 7 classifieurs en parallèle (clause MAC, changement de contrôle, anti-cession, vesting, exclusivité, cession d'IP, non-concurrence), résolution des renvois de définitions, puis un juge de risque qui cite ses passages verbatim.",
+      "Le routeur qui tranche entre validation automatique, escalade et blocage est du Python déterministe, jamais un LLM — et un verdict n'est auto-validé que si deux évaluateurs indépendants, hallucination et fidélité, passent tous les deux.",
+      "Dix points d'accroche Arize Phoenix : traces OpenInference, LLM-as-judge en ligne, annotations de spans, dataset de régression auto-alimenté. Un verdict bloquant s'ouvre sur son prompt, sa réponse, son score d'évaluateur et son span.",
+      "Boucle d'amélioration nocturne sous double garde-fou : une modification de prompt n'est promue que si elle franchit un intervalle de confiance par bootstrap apparié et ne régresse pas sur un fold gelé. Les bornes basses publiées sont les pires cas, pas les meilleurs.",
+    ],
+    stack: ['Python', 'Gemini', 'Google ADK', 'Arize Phoenix', 'FastAPI', 'Next.js'],
+    link: {
+      label: 'Dépôt sur GitHub',
+      href: 'https://github.com/Sosolalt/Cautela',
+    },
+  },
 ];

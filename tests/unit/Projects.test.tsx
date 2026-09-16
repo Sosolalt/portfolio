@@ -15,7 +15,7 @@ describe('Projects', () => {
     const { rows } = renderProjects();
 
     expect(screen.getByRole('heading', { level: 2, name: 'Projets' })).toBeInTheDocument();
-    expect(rows).toHaveLength(5);
+    expect(rows).toHaveLength(6);
     expect(rows).toHaveLength(projects.length);
   });
 

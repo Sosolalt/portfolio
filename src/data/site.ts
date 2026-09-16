@@ -53,6 +53,7 @@ export const hero = {
     'Agents outillés.',
     'ML temporel.',
     'Optimisation sous contrainte.',
+    'Évaluation & traçabilité.',
   ] as const,
   /** The two next steps under the profile; the first one is the primary action. */
   actions: [

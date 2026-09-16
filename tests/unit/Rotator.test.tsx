@@ -90,7 +90,7 @@ describe('Rotator', () => {
     expect(shown(phrases)).toBe(0);
   });
 
-  it('exposes the four phrases to assistive tech as static text', () => {
+  it('exposes every phrase to assistive tech as static text', () => {
     const { container } = renderRotator();
 
     expect(container.querySelector('.srOnly')?.textContent).toBe(hero.phrases.join(' '));
